@@ -39,249 +39,264 @@ class _FormCartState extends State<FormCart> {
     // }
     return Scaffold(
         body: SingleChildScrollView(
-      child: SafeArea(
-        child: Column(
-          //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: SafeArea(
+            child: Column(
+              //  mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-          children: [
-            const Appbar(),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 800,
-              // color: Colors.amber,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Appbar(),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  width: 800,
+                  // color: Colors.amber,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Textlable(title: 'Barcode'),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: width / 3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Expanded(
-                            child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        )),
-                      ),
-                      Container(
-                        child: Icon(Icons.document_scanner_outlined),
-                      )
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'ชื่อสินค้า'),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: width / 3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Expanded(
-                            child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        )),
-                      ),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Textlable(title: 'Department'),
-                      Depratment(),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'Catagorie'),
-                      const Catagorie(),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Textlable(title: 'Sub-Catagorie'),
-                      SubCatagorie(),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'Brand'),
                       Row(
-                        children: const [
-                          Brand(),
-                          addbuttonBrand(),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Textlable(title: 'Barcode'),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                width: width / 4.1,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print('Scan');
+                                  },
+                                  child: Container(
+                                    width: 100,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child:
+                                    const Icon(Icons.document_scanner_outlined),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'ปริมาณ/ขนาด'),
+                      const SpaceHeight(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const Textlable(title: 'ชื่อสินค้า'),
                           Container(
                             padding: const EdgeInsets.all(8),
-                            width: width / 4.8,
+                            width: width / 3,
                             height: 50,
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Expanded(
-                                child: TextField(
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                      decimal: true),
+                            child: const TextField(
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                               ),
-                            )),
+                            ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: SizeValue(),
-                          )
                         ],
                       ),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Textlable(title: 'หน่วยขาย'),
-                      SaleValue(),
-                    ],
-                  ),
-                  const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'ราคา'),
+                      const SpaceHeight(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Textlable(title: 'Department'),
+                          Depratment(),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Textlable(title: 'Catagorie'),
+                          Catagorie(),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Textlable(title: 'Sub-Catagorie'),
+                          SubCatagorie(),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            width: width / 4,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
+                          const Textlable(title: 'Brand'),
+                          Row(
+                            children: const [
+                              Brand(),
+                              addbuttonBrand(),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Textlable(title: 'ปริมาณ/ขนาด'),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                width: width / 4.8,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const TextField(
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Expanded(
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: SizeValue(),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Textlable(title: 'หน่วยขาย'),
+                          SaleValue(),
+                        ],
+                      ),
+                      const SpaceHeight(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Textlable(title: 'ราคา'),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                width: width / 4,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: TextField(
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9.,]')),
-                              ],
-                              keyboardType:
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9.,]')),
+                                  ],
+                                  keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
                               ),
-                            )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Container(
-                                width: 100,
-                                child: const Center(child: Text('บาท'))),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                    width: 100,
+                                    child: const Center(child: Text('บาท'))),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                      const SpaceHeight(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                print('event Reset');
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Center(
+                                    child: Text(
+                                      'Reset',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                print('event Submit');
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  // color: Colors.red,
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.green,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Center(
+                                    child: Text(
+                                      'บันทึก',
+                                      style: TextStyle(color: Colors.green),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SpaceHeight(),
                     ],
                   ),
-                  const SpaceHeight(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            print('event Reset');
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                                child: Text(
-                              'Reset',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            print('event Submit');
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                // color: Colors.red,
-                                border: Border.all(
-                                  width: 1,
-                                  color: Colors.green,
-                                ),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                                child: Text(
-                              'บันทึก',
-                              style: TextStyle(color: Colors.green),
-                            )),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SpaceHeight(),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }
 

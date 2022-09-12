@@ -35,150 +35,144 @@ Future<dynamic> addBrandDialog(BuildContext context) {
   return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-            elevation: 16,
-            // title: const Text('เพิ่ม brand'),
-            actions: [
-              SingleChildScrollView(
-                child: Container(
-                  // height: 285,
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
+        elevation: 16,
+        // title: const Text('เพิ่ม brand'),
+        actions: [
+          SingleChildScrollView(
+            child: Container(
+              // height: 285,
+              width: double.infinity,
+              color: Colors.white,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              onPressed: (() {
-                                Navigator.pop(context);
-                              }),
-                              icon: const Icon(Icons.close))
+                      IconButton(
+                          onPressed: (() {
+                            Navigator.pop(context);
+                          }),
+                          icon: const Icon(Icons.close))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: const [
+                          Text('Brand(ภาษาไทย) :'),
                         ],
                       ),
-                      Row(
+                      Column(
                         children: [
-                          Column(
-                            children: const [
-                              Text('Brand(ภาษาไทย) :'),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                  height: 50,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                    width: 1,
-                                  )),
-                                  child: const Expanded(
-                                      child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ))),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: const [
-                              Text('Brand(อังกฤษ) :'),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                  height: 50,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                    width: 1,
-                                  )),
-                                  child: const Expanded(
-                                      child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ))),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              print('event Reset');
-                            },
-                            child: Container(
+                          Container(
                               height: 50,
-                              width: 150,
+                              width: 200,
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: const Center(
-                                  child: Text(
-                                'Reset',
-                                style: TextStyle(color: Colors.white),
-                              )),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print('event Submit');
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  // color: Colors.red,
                                   border: Border.all(
                                     width: 1,
-                                    color: Colors.green,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)),
+                                  )),
                               child: const Center(
-                                  child: Text(
-                                'บันทึก',
-                                style: TextStyle(color: Colors.green),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
                               )),
-                            ),
-                          ),
                         ],
                       ),
                     ],
                   ),
-                ),
-              )
-            ],
-          ));
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        children: const [
+                          Text('Brand(อังกฤษ) :'),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 14,
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.all(8.0),
+                              height: 50,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                  )),
+                              child: const Center(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print('event Reset');
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                              child: Text(
+                                'Reset',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          print('event Submit');
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            // color: Colors.red,
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.green,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                              child: Text(
+                                'บันทึก',
+                                style: TextStyle(color: Colors.green),
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ));
 }

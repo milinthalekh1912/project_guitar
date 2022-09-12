@@ -1,25 +1,25 @@
 import 'dart:convert';
 
-class ProductCategories{
+class ProductCategoriesModel{
   String id;
   String title;
   bool updateStatus;
-  //List<String> items;
+  List<String> items;
 
-  ProductCategories({
+  ProductCategoriesModel({
     required this.id,
     required this.title,
     required this.updateStatus,
-    //required this.items,
+    required this.items,
   });
 
-  factory ProductCategories.fromJson(Map<String,dynamic> json){
-  // var list = json['items'] as List;
-  return ProductCategories(
+  factory ProductCategoriesModel.fromJson(Map<String,dynamic> json){
+  var list = json['items'] as List;
+  return ProductCategoriesModel(
       id:json['id'] ,
       title: json['title'],
       updateStatus: json['updateStatus'],
-      //items: [],
+      items: [],
   );
   }
 }

@@ -18,8 +18,30 @@ class Get_ProductCategories_API_Service {
     );
     if (response.statusCode == 200) {
       print('${response.statusCode} : Get Product Categories By Id : $productcategoriesId  API Request Complete');
-      return ProductCategories.fromJson(
+      return ProductCategoriesModel.fromJson(
           jsonDecode(response.body));
+    } else if (response.statusCode == 401) {
+      print('${response.statusCode} : ${response.body}');
+      return {"errorDetails": "Unauthorized"};
+    } else if (response.statusCode == 500) {
+      print('${response.statusCode} : ${response.body}');
+      return response.body;
+    } else {
+      throw Exception('Failed to load Data');
+    }
+  }
+
+  Future<dynamic> getProductCategoriesRequest(AuthorizationModel model) async {
+    final response = await http.get(
+      Uri.parse('$prod_cate_path'),
+      headers: <String, String>{
+        'accept': 'text/plain',
+        HttpHeaders.authorizationHeader: ' Bearer ${model.authorization}',
+      },
+    );
+    if (response.statusCode == 200) {
+      print('${response.statusCode} : Get All Product Categories : API Request Complete');
+      return jsonDecode(response.body);
     } else if (response.statusCode == 401) {
       print('${response.statusCode} : ${response.body}');
       return {"errorDetails": "Unauthorized"};

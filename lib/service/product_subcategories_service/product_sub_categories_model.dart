@@ -4,7 +4,7 @@ class ProductSubCategoriesModel{
   String id;
   String title;
   bool updateStatus;
-  List<String> items;
+  List<ItemModel> items;
 
   ProductSubCategoriesModel({
     required this.id,
@@ -14,8 +14,8 @@ class ProductSubCategoriesModel{
   });
 
   factory ProductSubCategoriesModel.fromJson(Map<String,dynamic> json){
-  var list = json['itemsId'] as List;
-  List<String> itemList = list.map((e) => e.toString()).toList();
+  var list = json['items'] as List;
+  List<ItemModel> itemList = list.map((e) => ItemModel.fromJson(e)).toList();
   return ProductSubCategoriesModel(
       id:json['id'] ,
       title: json['title'],
@@ -36,8 +36,8 @@ class ItemModel{
 
   factory ItemModel.fromJson(Map<String,dynamic> json){
   return ItemModel(
-      id: json['id'],
-      title: json['title'],
+      id: json['id'] ?? "",
+      title: json['title'] ?? "",
     );
   }
 }

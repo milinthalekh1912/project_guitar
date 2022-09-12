@@ -1,6 +1,7 @@
 //Login Manager
 import 'dart:convert';
 import 'package:form/login/login_model.dart';
+import 'package:form/manager/get_categories_managet.dart';
 import 'package:form/service/authorization_service/authorization_model.dart';
 import 'package:form/service/brand_service/brand_service.dart';
 import 'package:form/service/general_info_service/general_info_service.dart';
@@ -19,7 +20,6 @@ import '../service/config_object.dart';
 
 class LoginManager {
   Future<dynamic> login(LoginModel model) async {
-
     final loginRequest = await Login_API_Service().loginRequest(model);
     if (loginRequest.runtimeType == LoginResponse200Model) {
       userOnPos = LoginResponse200Model(
@@ -39,22 +39,30 @@ class LoginManager {
       listBrandOnDevice = await Get_Brand_API_Service()
           .getBrandRequest(authorizationModelOnDevice);
 
-      listProductgroupsOnDevice = await Get_ProductGroup_API_Service().getProductGroupRequest(authorizationModelOnDevice);
+      listProductgroupsOnDevice = await Get_ProductGroup_API_Service()
+          .getProductGroupRequest(authorizationModelOnDevice);
+
+      listProductcategoriesOnDevice = await CategoriesManager().getMockProductCategories();
+
+      listProductSubCategoriesModel = await Get_ProductSubCategories_API_Service()
+          .getProductSubCategoriesRequest(authorizationModelOnDevice);
 
       //ProductCategories result = await Get_ProductCategories_API_Service()
-    // .getProductCategoriesByIdRequest(authorizationModelOnDevice, '1');
+      // .getProductCategoriesByIdRequest(authorizationModelOnDevice, '1');
       //ProductSubCategoriesModel result = await Get_ProductSubCategories_API_Service()
-          //.getProductSubCategoriesByIdRequest(authorizationModelOnDevice, '1');
+      //.getProductSubCategoriesByIdRequest(authorizationModelOnDevice, '1');
 
+      listProductSizeOnDevice = await Get_ProductSize_API_Service()
+          .getProductSizeRequest(authorizationModelOnDevice);
 
-      listProductSizeOnDevice = await Get_ProductSize_API_Service().getProductSizeRequest(authorizationModelOnDevice);
-
-      listProductUnitOnDevice = await Get_ProductUnit_API_Service().getProductUnitRequest(authorizationModelOnDevice);
+      listProductUnitOnDevice = await Get_ProductUnit_API_Service()
+          .getProductUnitRequest(authorizationModelOnDevice);
       return true;
-
-    }else if(loginRequest.runtimeType == LoginResponse500Model){
+    } else if (loginRequest.runtimeType == LoginResponse500Model) {
       LoginResponse500Model errorDetails = loginRequest;
       return errorDetails.errorDetail;
     }
   }
 }
+
+
