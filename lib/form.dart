@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:form/service/config_object.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'appbar_form.dart';
 import 'brand_dropdown.dart';
@@ -30,18 +32,24 @@ class _FormCartState extends State<FormCart> {
     var size, width;
     size = MediaQuery.of(context).size;
     width = size.width;
+    // ignore: avoid_print
+    // print(listProductgroupsOnDevice.length);
+    // for (var element in listBrandOnDevice) {
+    //   print(element.tH_Brand);
+    // }
     return Scaffold(
         body: SingleChildScrollView(
       child: SafeArea(
         child: Column(
           //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+
           children: [
             const Appbar(),
             const SizedBox(
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               width: 800,
               // color: Colors.amber,
               child: Column(
@@ -75,7 +83,6 @@ class _FormCartState extends State<FormCart> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Textlable(title: 'ชื่อสินค้า'),
-                      // const space(),
                       Container(
                         padding: const EdgeInsets.all(8),
                         width: width / 3,
@@ -140,7 +147,7 @@ class _FormCartState extends State<FormCart> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
-                            width: width / 4,
+                            width: width / 4.8,
                             height: 50,
                             decoration: BoxDecoration(
                                 border: Border.all(
@@ -149,13 +156,16 @@ class _FormCartState extends State<FormCart> {
                                 borderRadius: BorderRadius.circular(10)),
                             child: const Expanded(
                                 child: TextField(
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                               ),
                             )),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: SizeValue(),
                           )
                         ],
@@ -186,9 +196,16 @@ class _FormCartState extends State<FormCart> {
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Expanded(
+                            child: Expanded(
                                 child: TextField(
-                              decoration: InputDecoration(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9.,]')),
+                              ],
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                               ),
                             )),
@@ -196,7 +213,8 @@ class _FormCartState extends State<FormCart> {
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Container(
-                                width: 100, child: Center(child: Text('บาท'))),
+                                width: 100,
+                                child: const Center(child: Text('บาท'))),
                           ),
                         ],
                       ),

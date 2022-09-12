@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:form/getservicedropdown.dart';
+import 'package:form/service/config_object.dart';
 
-const List<String> list = <String>['มล.', 'มก.', 'กรัม', 'ลิตร'];
+// const List<String> list = <String>['มล.', 'มก.', 'กรัม', 'ลิตร'];
 
 class SizeValue extends StatefulWidget {
   const SizeValue({super.key});
@@ -10,9 +12,19 @@ class SizeValue extends StatefulWidget {
 }
 
 class _SizeValueState extends State<SizeValue> {
+  String dropdownValue = listProductSizeOnDevice[0].name;
+  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProductDropdownItem();
+  }
+
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = list.first;
+    // String dropdownValue = list.first;
     var size, height, width;
     size = MediaQuery.of(context).size;
     height = size.height;
@@ -25,32 +37,25 @@ class _SizeValueState extends State<SizeValue> {
           border: Border.all(
             width: 1,
           )),
-           height: 50,
-      width: 100,
+      height: 50,
+      width: 150,
       // height: 0,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
-          hint: const Text('hint'),
+          hint: const Text('เลือก'),
           // isExpanded: true,
           value: dropdownValue,
           elevation: 16,
           style: const TextStyle(color: Colors.black),
-          onChanged: (String? value) {
-            // print(value?.indexOf(value!));
+          onChanged: (value) {
             print(value);
             setState(() {
-              dropdownValue = value!;
+              dropdownValue = value;
             });
           },
-          items: list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+          items: getProductDropdownItem(),
         ),
       ),
     );
-    ;
   }
 }

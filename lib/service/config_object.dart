@@ -19,7 +19,7 @@ late LoginResponse200Model userOnPos;
 //Object of Sale API
 late List<BrandModel> listBrandOnDevice; //รายการ Brand
 late List<ProductgroupsModel> listProductgroupsOnDevice; //รายการ Department
-late List<ProductSizeModel> listProductSizeOnDevice; //รายการ ชิ้นแพ็คลัง
-late List<ProductUnitModel> listProductUnitOnDevice; //รายการ ปริมาณ ขนาด
+late List<ProductSizeModel> listProductSizeOnDevice; //รายการ ปริมาณ ขนาด
+late List<ProductUnitModel> listProductUnitOnDevice;  //รายการ ชิ้นแพ็คลัง
 
 late String version;
