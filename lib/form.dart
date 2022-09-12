@@ -60,25 +60,44 @@ class _FormCartState extends State<FormCart> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Textlable(title: 'Barcode'),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: width / 3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            width: width / 4.1,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const TextField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Expanded(
-                            child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
                           ),
-                        )),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                print('Scan');
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child:
+                                    const Icon(Icons.document_scanner_outlined),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        child: Icon(Icons.document_scanner_outlined),
-                      )
                     ],
                   ),
                   const SpaceHeight(),
@@ -95,12 +114,11 @@ class _FormCartState extends State<FormCart> {
                               width: 1,
                             ),
                             borderRadius: BorderRadius.circular(10)),
-                        child: const Expanded(
-                            child: TextField(
+                        child: const TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),
-                        )),
+                        ),
                       ),
                     ],
                   ),
@@ -115,9 +133,9 @@ class _FormCartState extends State<FormCart> {
                   const SpaceHeight(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'Catagorie'),
-                      const Catagorie(),
+                    children: const [
+                      Textlable(title: 'Catagorie'),
+                      Catagorie(),
                     ],
                   ),
                   const SpaceHeight(),
@@ -157,15 +175,13 @@ class _FormCartState extends State<FormCart> {
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Expanded(
-                                child: TextField(
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                      decimal: true),
+                            child: const TextField(
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                               ),
-                            )),
+                            ),
                           ),
                           const Padding(
                             padding: EdgeInsets.all(8.0),
@@ -199,8 +215,7 @@ class _FormCartState extends State<FormCart> {
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Expanded(
-                                child: TextField(
+                            child: TextField(
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                     RegExp('[0-9.,]')),
@@ -211,7 +226,7 @@ class _FormCartState extends State<FormCart> {
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                               ),
-                            )),
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(5.0),

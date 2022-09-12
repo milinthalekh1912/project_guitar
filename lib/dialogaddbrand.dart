@@ -69,21 +69,18 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                               Container(
                                   height: 50,
                                   width: 200,
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                     width: 1,
                                   )),
-                                  child: const Expanded(
-                                      child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                        ),
+                                  child: const Center(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
                                       ),
                                     ),
-                                  ))),
+                                  )),
                             ],
                           ),
                         ],
@@ -104,23 +101,20 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                           Column(
                             children: [
                               Container(
+                                  padding: const EdgeInsets.all(8.0),
                                   height: 50,
                                   width: 200,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                     width: 1,
                                   )),
-                                  child: const Expanded(
-                                      child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                        ),
+                                  child: const Center(
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
                                       ),
                                     ),
-                                  ))),
+                                  )),
                             ],
                           ),
                         ],
