@@ -8,7 +8,7 @@ import 'package:form/service/config_object.dart';
       //  print(itemName);
       var dropdownUnitItem = DropdownMenuItem(
         value: itemName,
-        child: Text(itemName),
+        child: Text(itemName,softWrap: true,),
       );
       dropdownItem.add(dropdownUnitItem);
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:form/service/config_object.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'appbar_form.dart';
@@ -14,29 +15,34 @@ import 'sub_catagorie.dart';
 import 'textlable.dart';
 
 class FormCart extends StatefulWidget {
-  final fieldText = TextEditingController();
-
   FormCart({super.key});
-  void clearText() {
-    fieldText.clear();
-  }
 
   @override
   State<FormCart> createState() => _FormCartState();
 }
 
 class _FormCartState extends State<FormCart> {
+  String? scanResult;
+  final barcode = TextEditingController();
+
+  // var barcode;
+
   @override
   Widget build(BuildContext context) {
+    void clearText() {
+      barcode.clear();
+    }
+
     // ignore: prefer_typing_uninitialized_variables
     var size, width;
     size = MediaQuery.of(context).size;
     width = size.width;
-    // ignore: avoid_print
-    // print(listProductgroupsOnDevice.length);
-    // for (var element in listBrandOnDevice) {
-    //   print(element.tH_Brand);
-    // }
+    print(scanResult);
+    if (scanResult != null) {
+      barcode.text = scanResult.toString();
+    } else {
+      print('object');
+    }
     return Scaffold(
         body: SingleChildScrollView(
       child: SafeArea(
@@ -48,6 +54,7 @@ class _FormCartState extends State<FormCart> {
             const SizedBox(
               height: 10,
             ),
+            // Text(scanResult == null ? 'Test barcode' : 'result : $scanResult'),
             Container(
               padding: const EdgeInsets.all(8),
               width: 800,
@@ -64,17 +71,22 @@ class _FormCartState extends State<FormCart> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
-                            width: width / 4.1,
+                            width: width / 4.3,
                             height: 50,
+                            // color: barcode,
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const TextField(
-                              decoration: InputDecoration(
+                            child: TextField(
+                              controller: barcode,
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                               ),
+                              onChanged: (value) {
+                                print(value);
+                              },
                             ),
                           ),
                           Padding(
@@ -82,17 +94,24 @@ class _FormCartState extends State<FormCart> {
                             child: GestureDetector(
                               onTap: () {
                                 print('Scan');
+                                ScanBarcode();
                               },
                               child: Container(
-                                width: 100,
+                                padding: const EdgeInsets.all(8),
+                                width: 110,
                                 height: 50,
                                 decoration: BoxDecoration(
+                                    color: Colors.amber[300],
                                     border: Border.all(
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(10)),
-                                child:
-                                    const Icon(Icons.document_scanner_outlined),
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.camera_alt_outlined),
+                                    Text('Start Scan'),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -168,7 +187,7 @@ class _FormCartState extends State<FormCart> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
-                            width: width / 4.8,
+                            width: width / 3,
                             height: 50,
                             decoration: BoxDecoration(
                                 border: Border.all(
@@ -247,7 +266,7 @@ class _FormCartState extends State<FormCart> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            print('event Reset');
+                            clearText();
                           },
                           child: Container(
                             height: 50,
@@ -297,6 +316,22 @@ class _FormCartState extends State<FormCart> {
         ),
       ),
     ));
+  }
+
+  // ignore: non_constant_identifier_names
+  Future ScanBarcode() async {
+    String scanResult;
+    try {
+      scanResult = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+    } on PlatformException {
+      scanResult = 'Fail to get platform verion. ';
+    }
+    if (!mounted) return;
+    setState(() {
+      print(scanResult);
+      this.scanResult = scanResult;
+    });
   }
 }
 

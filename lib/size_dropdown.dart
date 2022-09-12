@@ -13,7 +13,6 @@ class SizeValue extends StatefulWidget {
 
 class _SizeValueState extends State<SizeValue> {
   String dropdownValue = listProductSizeOnDevice[0].name;
-  
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _SizeValueState extends State<SizeValue> {
             width: 1,
           )),
       height: 50,
-      width: 150,
+      width: width / 7,
       // height: 0,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
