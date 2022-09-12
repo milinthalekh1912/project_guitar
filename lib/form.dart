@@ -76,6 +76,9 @@ class _FormCartState extends State<FormCart> {
                           ),
                         )),
                       ),
+                      Container(
+                        child: Icon(Icons.document_scanner_outlined),
+                      )
                     ],
                   ),
                   const SpaceHeight(),
