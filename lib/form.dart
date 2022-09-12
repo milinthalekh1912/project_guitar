@@ -187,7 +187,7 @@ class _FormCartState extends State<FormCart> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
-                            width: width / 3,
+                            width: width / 4.6,
                             height: 50,
                             decoration: BoxDecoration(
                                 border: Border.all(

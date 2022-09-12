@@ -37,7 +37,7 @@ class _SaleValueState extends State<SaleValue> {
       height: 50,
       width: width / 3,
       child: DropdownButtonHideUnderline(
-        child: DropdownButton(
+        child: DropdownButtonFormField(
           hint: const Text('เลือก'),
           // isExpanded: true,
           value: dropdownValue,

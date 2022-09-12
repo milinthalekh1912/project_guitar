@@ -37,7 +37,7 @@ class _SizeValueState extends State<SizeValue> {
             width: 1,
           )),
       height: 50,
-      width: width / 7,
+      // width: width / 9,
       // height: 0,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(

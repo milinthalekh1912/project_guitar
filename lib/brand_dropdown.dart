@@ -46,7 +46,7 @@ class _BrandState extends State<Brand> {
             width: 1,
           )),
       height: 50,
-      width: width / 4,
+      width: width / 4.1,
       child: Autocomplete(
         optionsBuilder: (TextEditingValue textEditingValue) {
           if (textEditingValue.text == '') {
