@@ -12,7 +12,7 @@ class SkuLookUpByIdManager{
       SkuLookupBarcodeModel skuLookupBarcodeModel = resultApi;
       var resultApiSku = await SKU_API_Service().getSkuByIdRequest(skuLookupBarcodeModel.sku);
       if(resultApiSku.runtimeType == GetSkuByIdModelResponse200Model){
-        GetSkuByIdModelResponse200Model skuResult = resultApiSku;
+        GetSkuModel skuResult = resultApiSku.items;
         updateSku = true;
         return skuResult;
       }

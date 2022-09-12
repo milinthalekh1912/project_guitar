@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:form/service/config_object.dart';
 import 'package:form/service/config_path.dart';
 import 'package:http/http.dart' as http;
 import 'get_sku_by_id_model.dart';
@@ -9,6 +11,8 @@ class SKU_API_Service {
       Uri.parse('$sku_path/$sku'),
       headers: <String, String>{
         'accept': 'text/plain',
+        HttpHeaders.authorizationHeader:
+            ' Bearer ${authorizationModelOnDevice.authorization}',
       },
     );
     if (response.statusCode == 200) {

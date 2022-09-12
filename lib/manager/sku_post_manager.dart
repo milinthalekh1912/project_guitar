@@ -22,10 +22,10 @@ class SKUPostManager {
       print("Barcode Dup");
       return 'Barcode นี้มีอยู่ในระบบแล้ว';
     } else if (result == "Not Found") {
-      print("Create Item");
+      //"Create Item"
       skuId = uuid.v4();
     } else {
-      print("Update");
+      //"Update Item"
       SkuLookupBarcodeModel model = result;
       skuId = model.sku;
     }
