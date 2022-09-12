@@ -13,6 +13,7 @@ class SkuLookUpByIdManager{
       var resultApiSku = await SKU_API_Service().getSkuByIdRequest(skuLookupBarcodeModel.sku);
       if(resultApiSku.runtimeType == GetSkuByIdModelResponse200Model){
         GetSkuByIdModelResponse200Model skuResult = resultApiSku;
+        updateSku = true;
         return skuResult;
       }
       return 'Not found SKU';

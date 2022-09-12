@@ -27,3 +27,4 @@ late List<ProductSizeModel> listProductSizeOnDevice; //รายการ ปร
 late List<ProductUnitModel> listProductUnitOnDevice;  //รายการ ชิ้นแพ็คลัง
 
 late String version;
+late bool updateSku = false;

@@ -16,8 +16,9 @@ class SKUPostManager {
     var result = await Get_SKULookupByBarcode_API_Service()
         .getSkuLookupByBarcodeRequest(authorizationModelOnDevice, barcode);
     String skuId;
+
     if (result.runtimeType == SkuLookupBarcodeModel &&
-        !update) {
+        !updateSku) {
       print("Barcode Dup");
       return 'Barcode นี้มีอยู่ในระบบแล้ว';
     } else if (result == "Not Found") {
@@ -28,8 +29,6 @@ class SKUPostManager {
       SkuLookupBarcodeModel model = result;
       skuId = model.sku;
     }
-
-    late String taxName;
 
     PostSkuModel item = PostSkuModel(
       skuid: skuId,
@@ -56,7 +55,8 @@ class SKUPostManager {
     var resultPostSKU =
         await SKUPostService().skuPostRequest(authorizationModelOnDevice, item);
 
-    if (update == false) {
+    if (updateSku == false) {
+      //Create SKU
       await Patch_SKU_Price_API_Service().patchSkuPriceRequest(
           authorizationModelOnDevice,
           SkuPricePatchModel(items: [
@@ -67,7 +67,9 @@ class SKUPostManager {
           ]));
           item.productCatID.toString();
     } else {
+      //Update SKU
       print("Item updateIdToCategories,updateItemToItemsJson Method");
     }
+    updateSku = false;
   }
 }
