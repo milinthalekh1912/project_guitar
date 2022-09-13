@@ -12,4 +12,20 @@ class BrandManager {
     }
     return resultApi;
   }
+
+  Future<dynamic> postBrand(String thName, String enName) async {
+    BrandModel newBrand = BrandModel(
+      brandID: null,
+      tH_Brand: thName,
+      eN_Brand: enName,
+    );
+    var brandId = await Get_Brand_API_Service()
+        .postBrandRequest(authorizationModelOnDevice, newBrand);
+    if(brandId.runtimeType == GetBrandModelResponse500Model){
+      GetBrandModelResponse500Model response500 = brandId;
+      return response500;
+    }
+    print(brandId);
+    return brandId['brandID'].toString();
+  }
 }

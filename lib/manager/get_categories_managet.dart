@@ -13,29 +13,6 @@ class CategoriesManager {
     }
     return null;
   }
-
-  Future<dynamic> getMockProductCategories() async {
-    var resultApi = await Get_ProductCategories_API_Service()
-        .getProductCategoriesRequest(authorizationModelOnDevice);
-    List<ProductCategoriesModel> listProductCate = [];
-    for (var cate in resultApi) {
-      //resultApi = categories
-      List<String> subcatesId = [];
-      for (var mapCateToSubCate in prodcat_prodsubcat) {
-        if (int.parse(cate['id']) == mapCateToSubCate['ProdCatID']) {
-          subcatesId.add(mapCateToSubCate['ProdSubCatID'].toString());
-        }
-      }
-      listProductCate.add(ProductCategoriesModel(
-        id: cate['id'],
-        title: cate['title'],
-        updateStatus: false,
-        items: subcatesId,
-      ));
-    }
-
-    return listProductCate;
-  }
 }
 
 var prodcat_prodsubcat = [

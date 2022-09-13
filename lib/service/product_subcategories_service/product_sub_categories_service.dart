@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:form/service/authorization_service/authorization_model.dart';
 import 'package:form/service/config_path.dart';
+import 'package:form/service/product_categories_service/product_categories_model.dart';
 import 'package:form/service/product_subcategories_service/product_sub_categories_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,38 +31,41 @@ class Get_ProductSubCategories_API_Service {
     }
   }
 
-  Future<dynamic> getProductSubCategoriesRequest(AuthorizationModel model) async {
+  Future<dynamic> getProductSubCategoriesRequest(
+      AuthorizationModel model) async {
     final response = await http.get(
       Uri.parse(
           'https://tccposbackendgateway.azurewebsites.net/sale/api/v1/ProductCat/ProductSubCat'),
       headers: <String, String>{
         'accept': 'text/plain',
-        HttpHeaders.authorizationHeader:
-            ' Bearer ${model.authorization}',
+        HttpHeaders.authorizationHeader: ' Bearer ${model.authorization}',
       },
     );
     if (response.statusCode == 200) {
-      List<ProductSubCategoriesModel> listSucate = [];
-      List<ItemModel> listItems = [];
+      List<ProductCategoriesModel> listSucate = [];
+
       print(
           '${response.statusCode} : Get All Product Sub-Categories :  API Request Complete');
-
+      SubcateInCateModel itemTemp;
+      ProductCategoriesModel subTemp;
       var listSubcateJson = jsonDecode(response.body);
       for (var subCate in listSubcateJson) {
-        for(var item in subCate['items']){
-          listItems.add(ItemModel(id: item['id'] ?? "",
-              title: item['title'] ?? "",
-          ));
+        List<SubcateInCateModel> listSubCate = [];
+        for (var item in subCate['items']) {
+          itemTemp = SubcateInCateModel(
+            id: item['id'] ?? "",
+            title: item['title'] ?? "",
+          );
+          listSubCate.add(itemTemp);
         }
-        listSucate.add(ProductSubCategoriesModel(
-          id: subCate['id'],
-          title: subCate['title'],
+        subTemp = ProductCategoriesModel(
+          id: subCate['id'] ?? "",
+          title: subCate['title'] ?? "",
           updateStatus: false,
-          items: listItems,
-          ));
-        listItems.clear();
+          subcates: listSubCate,
+        );
+        listSucate.add(subTemp);
       }
-
       return listSucate;
     } else if (response.statusCode == 401) {
       print('${response.statusCode} : ${response.body}');

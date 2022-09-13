@@ -18,7 +18,7 @@ List<String> getDropdownItem() {
 
 List<String> getProductDropdownItem() {
   List<String> sizeTitles = [];
-  for(ProductSizeModel size in listProductSizeOnDevice) {
+  for (ProductSizeModel size in listProductSizeOnDevice) {
     sizeTitles.add(size.name);
   }
   return sizeTitles;
@@ -32,8 +32,6 @@ List<String> extractDepartmentTitle() {
   }
   return titles;
 }
-
-
 
 List<String> extractCategoriesTitle(String selectedDepartmentTitle) {
   List<String> categoriesTitle = [];
@@ -58,8 +56,12 @@ List<String> extractSubcategoriesTitle(String categoryTitle) {
   List<String> titles = [];
   for (ProductCategoriesModel productGroup in listProductCategoriesOnDevice) {
     if (productGroup.title == categoryTitle) {
-      for (String title in productGroup.items) {
-        titles.add(title);
+      // for (String title in productGroup.items) {
+      //   titles.add(title);
+      // }
+      //Oat Edit
+      for (SubcateInCateModel title in productGroup.subcates) {
+        titles.add(title.title);
       }
     }
   }

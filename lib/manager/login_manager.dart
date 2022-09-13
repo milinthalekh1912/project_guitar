@@ -43,21 +43,16 @@ class LoginManager {
       listProductGroupsOnDevice = await Get_ProductGroup_API_Service()
           .getProductGroupRequest(authorizationModelOnDevice);
 
-      listProductCategoriesOnDevice = await CategoriesManager().getMockProductCategories();
-
-      listProductSubCategoriesModel = await Get_ProductSubCategories_API_Service()
-          .getProductSubCategoriesRequest(authorizationModelOnDevice);
-
-      //ProductCategories result = await Get_ProductCategories_API_Service()
-      // .getProductCategoriesByIdRequest(authorizationModelOnDevice, '1');
-      //ProductSubCategoriesModel result = await Get_ProductSubCategories_API_Service()
-      //.getProductSubCategoriesByIdRequest(authorizationModelOnDevice, '1');
+      listProductCategoriesOnDevice =
+          await Get_ProductSubCategories_API_Service()
+              .getProductSubCategoriesRequest(authorizationModelOnDevice);
 
       listProductSizeOnDevice = await Get_ProductSize_API_Service()
           .getProductSizeRequest(authorizationModelOnDevice);
 
       listProductUnitOnDevice = await Get_ProductUnit_API_Service()
           .getProductUnitRequest(authorizationModelOnDevice);
+
       return true;
     } else if (loginRequest.runtimeType == LoginResponse500Model) {
       LoginResponse500Model errorDetails = loginRequest;
@@ -65,5 +60,3 @@ class LoginManager {
     }
   }
 }
-
-
