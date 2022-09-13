@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:form/service/config_object.dart';
 import 'package:form/service/product_categories_service/product_categories_model.dart';
+import 'package:form/service/product_group_service/get_product_groups_model.dart';
 
 List<DropdownMenuItem> getDropdownItem() {
   List<DropdownMenuItem> dropdownItem = [];
@@ -31,25 +32,24 @@ List<DropdownMenuItem> getProductDropdownItem() {
   return dropdownItem;
 }
 
-List<DropdownMenuItem> getDepratmentDropdownItem() {
-  List<DropdownMenuItem> dropdownItem = [];
-  for (var i = 0; i < listProductGroupsOnDevice.length; i++) {
-    String itemName = listProductGroupsOnDevice[i].th_prodcat;
-    var dropdownUnitItem = DropdownMenuItem(
-      value: itemName,
-      child: Text(itemName),
-    );
-    dropdownItem.add(dropdownUnitItem);
+List<String> extractDepartmentTitle() {
+  List<String> titles = [];
+
+  for (ProductgroupsModel productGroup in listProductGroupsOnDevice) {
+    titles.add(productGroup.th_prodcat);
   }
-  return dropdownItem;
+  return titles;
 }
 
 //Catagorie
-var catg;
-List<String> extractCategoriesTitle() {
+
+List<String> extractCategoriesTitle(String selectedDepartmentTitle) {
   List<String> categoriesTitle = [];
   for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
-    categoriesTitle.add(category.title);
+    print('${category.title} / ${selectedDepartmentTitle}');
+    if (category.title == selectedDepartmentTitle) {
+      categoriesTitle.add(category.title);
+    }
   }
   return categoriesTitle;
 }
