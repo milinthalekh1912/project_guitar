@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+import 'getservicedropdown.dart';
+import 'service/config_object.dart';
 
 class SubCatagorie extends StatefulWidget {
   const SubCatagorie({super.key});
@@ -10,9 +11,16 @@ class SubCatagorie extends StatefulWidget {
 }
 
 class _SubCatagorieState extends State<SubCatagorie> {
+  String dropdownValue = listProductSubCategoriesModel[0].title;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Future a = subCat();
+  }
+
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = list.first;
     var size, height, width;
     size = MediaQuery.of(context).size;
     height = size.height;
@@ -29,24 +37,18 @@ class _SubCatagorieState extends State<SubCatagorie> {
       width: width / 3,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
-          hint: const Text('hint'),
+          hint: const Text('เลือก'),
           // isExpanded: true,
           value: dropdownValue,
           elevation: 16,
           style: const TextStyle(color: Colors.black),
-          onChanged: (String? value) {
-            // print(value?.indexOf(value!));
+          onChanged: (value) {
             print(value);
             setState(() {
               dropdownValue = value!;
             });
           },
-          items: list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+          items: subCat(),
         ),
       ),
     );
