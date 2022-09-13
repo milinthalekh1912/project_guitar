@@ -48,7 +48,7 @@ List<DropdownMenuItem> getDepratmentDropdownItem() {
 var catg;
 List<String> extractCategoriesTitle() {
   List<String> categoriesTitle = [];
-  for(ProductCategoriesModel category in listProductCategoriesOnDevice) {
+  for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
     categoriesTitle.add(category.title);
   }
   return categoriesTitle;
@@ -65,9 +65,9 @@ String value = textName.toString();
 
 List<String> extractSubcategoriesTitle(String categoryTitle) {
   List<String> titles = [];
-  for(ProductCategoriesModel productGroup in listProductCategoriesOnDevice) {
-    if(productGroup.title == categoryTitle) {
-      for(String title in productGroup.items) {
+  for (ProductCategoriesModel productGroup in listProductCategoriesOnDevice) {
+    if (productGroup.title == categoryTitle) {
+      for (String title in productGroup.items) {
         titles.add(title);
       }
     }

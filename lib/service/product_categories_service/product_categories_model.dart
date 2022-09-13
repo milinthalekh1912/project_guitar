@@ -1,6 +1,5 @@
-import 'dart:convert';
 
-class ProductCategoriesModel{
+class ProductCategoriesModel {
   String id;
   String title;
   bool updateStatus;
@@ -13,13 +12,13 @@ class ProductCategoriesModel{
     required this.items,
   });
 
-  factory ProductCategoriesModel.fromJson(Map<String,dynamic> json){
-  var list = json['items'] as List;
-  return ProductCategoriesModel(
-      id:json['id'] ,
+  factory ProductCategoriesModel.fromJson(Map<String, dynamic> json) {
+    var list = json['items'] as List;
+    return ProductCategoriesModel(
+      id: json['id'],
       title: json['title'],
       updateStatus: json['updateStatus'],
       items: [],
-  );
+    );
   }
 }

@@ -51,9 +51,9 @@ class _FormCartState extends State<FormCart> {
 
     }
 
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: SafeArea(
+    return SafeArea(
+      child: Scaffold(
+          body: SingleChildScrollView(
         child: Column(
           //  mainAxisAlignment: MainAxisAlignment.spaceAround,
 
@@ -70,72 +70,9 @@ class _FormCartState extends State<FormCart> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'Barcode'),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            width: width / 4.1,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const TextField(
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                print('Scan');
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child:
-                                    const Icon(Icons.document_scanner_outlined),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  _barcode(width),
                   const SpaceHeight(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Textlable(title: 'ชื่อสินค้า'),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        width: width / 3,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  _itemTitle(width),
                   const SpaceHeight(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -243,7 +180,8 @@ class _FormCartState extends State<FormCart> {
                                       });
                                     }
                                   },
-                                  items: extractSubcategoriesTitle(selectedCategoryTitle!)
+                                  items: extractSubcategoriesTitle(
+                                          selectedCategoryTitle!)
                                       .map((String title) {
                                     return DropdownMenuItem(
                                       value: title,
@@ -404,8 +342,78 @@ class _FormCartState extends State<FormCart> {
             ),
           ],
         ),
-      ),
-    ));
+      )),
+    );
+  }
+
+  Row _itemTitle(width) {
+    return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Textlable(title: 'ชื่อสินค้า'),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      width: width / 3,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: const TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+  }
+
+  Row _barcode(width) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Textlable(title: 'Barcode'),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              width: width / 4.1,
+              height: 50,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(10)),
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  print('Scan');
+                },
+                child: Container(
+                  width: 100,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: const Icon(Icons.document_scanner_outlined),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   void onCategorySelected(String newTitle) {
