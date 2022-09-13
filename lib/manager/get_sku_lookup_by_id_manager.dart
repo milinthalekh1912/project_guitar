@@ -16,7 +16,8 @@ class SkuLookUpByIdManager{
         updateSku = true;
         return skuResult;
       }
-      return 'Not found SKU';
+      List<SkuLookupBarcodeModel> emptyResult = [];
+      return emptyResult;
     }
     return resultApi;
   }

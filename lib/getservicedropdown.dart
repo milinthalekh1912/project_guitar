@@ -4,32 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:form/service/config_object.dart';
 import 'package:form/service/product_categories_service/product_categories_model.dart';
 import 'package:form/service/product_group_service/get_product_groups_model.dart';
+import 'package:form/service/product_size_service/product_size_model.dart';
+import 'package:form/service/product_unit_service/product_unit_model.dart';
 
-List<DropdownMenuItem> getDropdownItem() {
-  List<DropdownMenuItem> dropdownItem = [];
-  for (var i = 0; i < listProductUnitOnDevice.length; i++) {
-    String itemName = listProductUnitOnDevice[i].name;
-    //  print(itemName);
-    var dropdownUnitItem = DropdownMenuItem(
-      value: itemName,
-      child: Text(itemName),
-    );
-    dropdownItem.add(dropdownUnitItem);
+List<String> getDropdownItem() {
+  List<String> titles = [];
+  for (ProductUnitModel unit in listProductUnitOnDevice) {
+    titles.add(unit.name);
+    // print('${unit.name} - ${titles.where((String element) => unit.name.contains(element)).toList()}');
   }
-  return dropdownItem;
+  return titles.toSet().toList();
 }
 
-List<DropdownMenuItem> getProductDropdownItem() {
-  List<DropdownMenuItem> dropdownItem = [];
-  for (var i = 0; i < listProductSizeOnDevice.length; i++) {
-    String itemName = listProductSizeOnDevice[i].name;
-    var dropdownUnitItem = DropdownMenuItem(
-      value: itemName,
-      child: Text(itemName),
-    );
-    dropdownItem.add(dropdownUnitItem);
+List<String> getProductDropdownItem() {
+  List<String> sizeTitles = [];
+  for(ProductSizeModel size in listProductSizeOnDevice) {
+    sizeTitles.add(size.name);
   }
-  return dropdownItem;
+  return sizeTitles;
 }
 
 List<String> extractDepartmentTitle() {
@@ -41,12 +33,11 @@ List<String> extractDepartmentTitle() {
   return titles;
 }
 
-//Catagorie
+
 
 List<String> extractCategoriesTitle(String selectedDepartmentTitle) {
   List<String> categoriesTitle = [];
   for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
-    print('${category.title} / ${selectedDepartmentTitle}');
     if (category.title == selectedDepartmentTitle) {
       categoriesTitle.add(category.title);
     }
