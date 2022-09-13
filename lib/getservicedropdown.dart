@@ -35,9 +35,20 @@ List<String> extractDepartmentTitle() {
 
 List<String> extractCategoriesTitle(String selectedDepartmentTitle) {
   List<String> categoriesTitle = [];
-  for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
-    if (category.title == selectedDepartmentTitle) {
-      categoriesTitle.add(category.title);
+  List<String> categoriesId = [];
+  for (ProductgroupsModel productGroup in listProductGroupsOnDevice) {
+    if (productGroup.th_prodcat == selectedDepartmentTitle) {
+      for (CategoriesID id in productGroup.categories) {
+        categoriesId.add(id.id);
+      }
+    }
+  }
+
+  for(String id in categoriesId) {
+    for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
+      if (category.id == id) {
+        categoriesTitle.add(category.title);
+      }
     }
   }
   return categoriesTitle;
