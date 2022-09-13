@@ -197,16 +197,15 @@ class _FormCartState extends State<FormCart> {
             child: DropdownButton<String>(
               hint: const Text('เลือก'),
               // isExpanded: true,
-              value: selectedUnitTitle ?? '',
+              value: selectedUnitTitle ,
               elevation: 16,
               style: const TextStyle(color: Colors.black),
-              items: const [],
-              // items: getDropdownItem().map((String title) {
-              //   return DropdownMenuItem(
-              //     value: title,
-              //     child: Text(title),
-              //   );
-              // }).toList(),
+              items: getDropdownItem().map((String title) {
+                return DropdownMenuItem(
+                  value: title,
+                  child: Text(title),
+                );
+              }).toList(),
               onChanged: (value) {
                 setState(() {
                   selectedUnitTitle = value;
@@ -261,7 +260,7 @@ class _FormCartState extends State<FormCart> {
                   child: DropdownButton(
                     hint: const Text('เลือก'),
                     // isExpanded: true,
-                    value: selectedSizeTitle ?? '',
+                    value: selectedSizeTitle,
                     elevation: 16,
                     style: const TextStyle(color: Colors.black),
                     onChanged: (value) {
