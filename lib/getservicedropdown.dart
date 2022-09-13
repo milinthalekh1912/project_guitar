@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:form/service/config_object.dart';
+import 'package:form/service/product_categories_service/product_categories_model.dart';
 
 List<DropdownMenuItem> getDropdownItem() {
   List<DropdownMenuItem> dropdownItem = [];
@@ -32,8 +33,8 @@ List<DropdownMenuItem> getProductDropdownItem() {
 
 List<DropdownMenuItem> getDepratmentDropdownItem() {
   List<DropdownMenuItem> dropdownItem = [];
-  for (var i = 0; i < listProductgroupsOnDevice.length; i++) {
-    String itemName = listProductgroupsOnDevice[i].th_prodcat;
+  for (var i = 0; i < listProductGroupsOnDevice.length; i++) {
+    String itemName = listProductGroupsOnDevice[i].th_prodcat;
     var dropdownUnitItem = DropdownMenuItem(
       value: itemName,
       child: Text(itemName),
@@ -45,28 +46,12 @@ List<DropdownMenuItem> getDepratmentDropdownItem() {
 
 //Catagorie
 var catg;
-List<DropdownMenuItem> getCatagorieDropdownItem() {
-  List<DropdownMenuItem> dropdownItem = [];
-  for (var i = 0; i < listProductcategoriesOnDevice.length; i++) {
-    String itemName = listProductcategoriesOnDevice[i].title;
-    // print(itemName);
-    var dropdownUnitItem = DropdownMenuItem(
-      value: itemName,
-      child: Text(itemName),
-      onTap: () {
-        if (itemName == itemName) {
-        catg = itemName;
-        subCat();
-        }
-        else{
-          subCat();
-        }
-        
-      },
-    );
-    dropdownItem.add(dropdownUnitItem);
+List<String> extractCategoriesTitle() {
+  List<String> categoriesTitle = [];
+  for(ProductCategoriesModel category in listProductCategoriesOnDevice) {
+    categoriesTitle.add(category.title);
   }
-  return dropdownItem;
+  return categoriesTitle;
 }
 
 String? textName;
@@ -78,24 +63,14 @@ String? textString(String name) {
 
 String value = textName.toString();
 
-List<DropdownMenuItem> subCat() {
-  print('value data :' + catg);
-  List<DropdownMenuItem> dropdownItem = [];
-  for (var element in listProductcategoriesOnDevice) {
-    if (element.title == catg) {
-      for (var i = 0; i < element.items.length; i++) {
-        // print(itemSubId);
-        String itemSubName = listProductSubCategoriesModel[i].title;
-        String itemSubId = listProductSubCategoriesModel[i].id;
-
-        print('resulte'+itemSubName);
-        var dropdownUnitItem = DropdownMenuItem(
-          value: itemSubName,
-          child: Text(itemSubName),
-        );
-        dropdownItem.add(dropdownUnitItem);
+List<String> extractSubcategoriesTitle(String categoryTitle) {
+  List<String> titles = [];
+  for(ProductCategoriesModel productGroup in listProductCategoriesOnDevice) {
+    if(productGroup.title == categoryTitle) {
+      for(String title in productGroup.items) {
+        titles.add(title);
       }
     }
   }
-  return dropdownItem;
+  return titles;
 }

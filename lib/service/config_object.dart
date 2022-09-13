@@ -20,8 +20,8 @@ late LoginResponse200Model userOnPos;
 
 //Object of Sale API
 late List<BrandModel> listBrandOnDevice; //รายการ Brand
-late List<ProductgroupsModel> listProductgroupsOnDevice; //รายการ Department
-late List<ProductCategoriesModel> listProductcategoriesOnDevice;
+late List<ProductgroupsModel> listProductGroupsOnDevice; //รายการ Department
+late List<ProductCategoriesModel> listProductCategoriesOnDevice;
 late List<ProductSubCategoriesModel> listProductSubCategoriesModel;
 late List<ProductSizeModel> listProductSizeOnDevice; //รายการ ปริมาณ ขนาด
 late List<ProductUnitModel> listProductUnitOnDevice;  //รายการ ชิ้นแพ็คลัง

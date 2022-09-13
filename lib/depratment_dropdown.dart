@@ -16,7 +16,7 @@ class Depratment extends StatefulWidget {
 }
 
 class _DepratmentState extends State<Depratment> {
-  String dropdownValue = listProductgroupsOnDevice[0].th_prodcat;
+  String dropdownValue = listProductGroupsOnDevice[0].th_prodcat;
   @override
   void initState() {
     // TODO: implement initState

@@ -40,10 +40,10 @@ class LoginManager {
       listBrandOnDevice = await Get_Brand_API_Service()
           .getBrandRequest(authorizationModelOnDevice);
 
-      listProductgroupsOnDevice = await Get_ProductGroup_API_Service()
+      listProductGroupsOnDevice = await Get_ProductGroup_API_Service()
           .getProductGroupRequest(authorizationModelOnDevice);
 
-      listProductcategoriesOnDevice = await CategoriesManager().getMockProductCategories();
+      listProductCategoriesOnDevice = await CategoriesManager().getMockProductCategories();
 
       listProductSubCategoriesModel = await Get_ProductSubCategories_API_Service()
           .getProductSubCategoriesRequest(authorizationModelOnDevice);

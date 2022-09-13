@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form/form.dart';
+import 'package:form/form/form_view.dart';
 
 import 'package:form/login/login_view_model.dart';
 

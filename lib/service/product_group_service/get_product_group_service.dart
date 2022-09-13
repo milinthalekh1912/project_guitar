@@ -21,13 +21,13 @@ class Get_ProductGroup_API_Service {
       );
       if (response.statusCode == 200) {
         print('${response.statusCode} : Get Product Group API Request Complete');
-        listProductgroupsOnDevice = [];
+        listProductGroupsOnDevice = [];
         for (var element in jsonDecode(response.body)) {
           ProductgroupsModel item = ProductgroupsModel.fromJson(element);
-          listProductgroupsOnDevice.add(item);
+          listProductGroupsOnDevice.add(item);
         }
 
-        return listProductgroupsOnDevice;
+        return listProductGroupsOnDevice;
       } else if (response.statusCode == 401) {
         print('${response.statusCode} : ${response.body}');
         return {"errorDetails": "Unauthorized"};

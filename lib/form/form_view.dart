@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form/form/form_view_model.dart';
 import 'package:form/service/config_object.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'appbar_form.dart';
-import 'brand_dropdown.dart';
-import 'depratment_dropdown.dart';
-import 'dialogaddbrand.dart';
-import 'dropdown_catagorie.dart';
-import 'getservicedropdown.dart';
-import 'model.dart';
-import 'salevalue_dropdown.dart';
-import 'size_dropdown.dart';
-import 'sub_catagorie.dart';
-import 'textlable.dart';
+import '../appbar_form.dart';
+import '../brand_dropdown.dart';
+import '../depratment_dropdown.dart';
+import '../dialogaddbrand.dart';
+import '../getservicedropdown.dart';
+import '../model.dart';
+import '../salevalue_dropdown.dart';
+import '../size_dropdown.dart';
+import '../textlable.dart';
 
 class FormCart extends StatefulWidget {
   final fieldText = TextEditingController();
@@ -21,15 +20,16 @@ class FormCart extends StatefulWidget {
   void clearText() {
     fieldText.clear();
   }
-  
+
   @override
   State<FormCart> createState() => _FormCartState();
 }
 
 class _FormCartState extends State<FormCart> {
+  String? selectedCategoryTitle;
+  String? selectedSubcategoryTitle;
   @override
   Widget build(BuildContext context) {
-      
     // ignore: prefer_typing_uninitialized_variables
     var size, width;
     size = MediaQuery.of(context).size;
@@ -40,18 +40,16 @@ class _FormCartState extends State<FormCart> {
     //      print(i);
     //   // print( listProductSubCategoriesModel[1].title);
     // }
-    
-   for (var element in listProductcategoriesOnDevice) {
-    // print(element.items);
-    // if (element.title =='เบียร์') {
-    //   print(element.id);
-    // }
-      
-    // }
-     
-   }
 
-    
+    for (var element in listProductCategoriesOnDevice) {
+      // print(element.items);
+      // if (element.title =='เบียร์') {
+      //   print(element.id);
+      // }
+
+      // }
+
+    }
 
     return Scaffold(
         body: SingleChildScrollView(
@@ -149,17 +147,112 @@ class _FormCartState extends State<FormCart> {
                   const SpaceHeight(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  [
-                      Textlable(title: 'Catagorie'),
-                      Catagorie(),
+                    children: [
+                      const Textlable(title: 'Catagorie'),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            // color: Colors.amber,
+                            border: Border.all(
+                              width: 1,
+                            )),
+                        height: 50,
+                        width: width / 3,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            hint: const Text('เลือก'),
+                            isExpanded: true,
+                            value: selectedCategoryTitle,
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.black),
+                            onChanged: (value) {
+                              //  print(value);
+                              setState(() {
+                                if (value != null) {
+                                  selectedCategoryTitle = value;
+                                }
+                              });
+                            },
+                            items: extractCategoriesTitle().map((String title) {
+                              return DropdownMenuItem(
+                                value: title,
+                                child: Text(title),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   const SpaceHeight(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Textlable(title: 'Sub-Catagorie'),
-                      SubCatagorie(),
+                    children: [
+                      const Textlable(title: 'Subcategories'),
+                      selectedCategoryTitle == null
+                          ? Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  // color: Colors.amber,
+                                  border: Border.all(
+                                    width: 1,
+                                  )),
+                              height: 50,
+                              width: width / 3,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  hint: const Text('เลือก'),
+                                  // isExpanded: true,
+                                  value: '',
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.black),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        selectedSubcategoryTitle = value;
+                                      });
+                                    }
+                                  },
+                                  items: const [],
+                                ),
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  // color: Colors.amber,
+                                  border: Border.all(
+                                    width: 1,
+                                  )),
+                              height: 50,
+                              width: width / 3,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  hint: const Text('เลือก'),
+                                  // isExpanded: true,
+                                  value: selectedSubcategoryTitle,
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.black),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        selectedSubcategoryTitle = value;
+                                      });
+                                    }
+                                  },
+                                  items: extractSubcategoriesTitle(selectedCategoryTitle!)
+                                      .map((String title) {
+                                    return DropdownMenuItem(
+                                      value: title,
+                                      child: Text(title),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                   const SpaceHeight(),
@@ -313,6 +406,12 @@ class _FormCartState extends State<FormCart> {
         ),
       ),
     ));
+  }
+
+  void onCategorySelected(String newTitle) {
+    setState(() {
+      selectedCategoryTitle = newTitle;
+    });
   }
 }
 
