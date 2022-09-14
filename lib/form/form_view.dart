@@ -228,17 +228,17 @@ class _FormCartState extends State<FormCart> {
                 update,
               );
 
-              if(result.runtimeType == Map<String, dynamic>) {
+              if (result.runtimeType == int) {
                 //TODO: Show error dialog
                 return;
               }
 
               if (result != null) {
                 //TODO: Show Success dialog
-                reset();
               } else {
                 //TODO: show barcode dup dialog
               }
+              reset();
             },
             child: Container(
               height: 50,
@@ -780,11 +780,6 @@ class _FormCartState extends State<FormCart> {
         _barcodeTextField.text = barcode;
 
         GetSkuModel itemData = result as GetSkuModel;
-
-        print(itemData.skuid);
-        print(itemData.productName);
-        print(itemData.brandID);
-
         skuId = itemData.skuid;
         isVat = itemData.isVat;
         isInTongFahCampaign = itemData.banForPracharat == 1 ? true : false;
@@ -840,7 +835,10 @@ class _FormCartState extends State<FormCart> {
         }
       });
     } else if (result.runtimeType == List<SkuLookupBarcodeModel>) {
-    } else {}
+
+    } else {
+
+    }
   }
 
   void clearText() {
