@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form/color.dart';
+import 'package:form/manager/sku_post_manager.dart';
 import 'package:form/service/brand_service/brand_model.dart';
 import 'package:form/service/get_sku_by_id_url/get_sku_by_id_model.dart';
 import 'package:form/service/get_sku_lookup_by_barcode/get_sku_lookup_by_barcode_model.dart';
+import 'package:form/service/post_sku_service/post_sku_model.dart';
 import '../appbar_form.dart';
 import '../dialogaddbrand.dart';
 import '../getservicedropdown.dart';
@@ -38,6 +40,8 @@ class _FormCartState extends State<FormCart> {
 
   bool isVat = true;
   bool isInTongFahCampaign = true;
+
+  String? skuId;
 
   String? errorMsg;
 
@@ -191,8 +195,52 @@ class _FormCartState extends State<FormCart> {
             width: 20,
           ),
           GestureDetector(
-            onTap: () {
-              print('event Submit');
+            onTap: () async {
+              //TODO: Validate fields here.
+
+              SKUPostManager manager = SKUPostManager();
+              PostSkuModel skuModel = PostSkuModel(
+                skuid: skuId ?? '',
+                barcodePos: _barcodeTextField.text,
+                productName: _itemNameTextFieldController.text,
+                brandID: null,
+                productGroupID: null,
+                productCatID: null,
+                productSubCatID: null,
+                productSizeID: null,
+                productUnit: null,
+                packSize: _sizeTextFieldController.text,
+                unit: 0,
+                banForPracharat: isInTongFahCampaign ? 1 : 0,
+                isVat: isVat,
+                createBy: userOnPos.username,
+                createDate: DateTime.now().toString(),
+                isActive: true,
+                merchantID: null,
+                mapSKU: null,
+              );
+
+              TitleSkuModel titleModel = TitleSkuModel(
+                departmentTitle: selectedDepartment!,
+                categoryTitle: selectedCategoryTitle!,
+                subcategoryTitle: selectedSubcategoryTitle!,
+                brandTitle: selectedBrandTitle!,
+                sizeTitle: selectedSizeTitle!,
+                unitTitle: selectedUnitTitle!,
+              );
+
+              String? result = await manager.createSkuDetails(
+                skuModel,
+                titleModel,
+                _barcodeTextField.text,
+                skuId != null,
+              );
+
+              if (result != null) {
+                //TODO: Show Success dialog
+              } else {
+                //TODO: show barcode dup dialog
+              }
             },
             child: Container(
               height: 50,
@@ -730,6 +778,7 @@ class _FormCartState extends State<FormCart> {
 
         GetSkuModel itemData = result as GetSkuModel;
 
+        skuId = itemData.skuid;
         isVat = itemData.isVat;
         isInTongFahCampaign = itemData.banForPracharat == 1 ? true : false;
 
