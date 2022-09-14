@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:form/service/get_sku_by_id_url/get_sku_by_id_model.dart';
 import 'package:form/service/get_sku_lookup_by_barcode/get_sku_lookup_by_barcode_model.dart';
 import '../appbar_form.dart';
-import '../brand_dropdown.dart';
 import '../dialogaddbrand.dart';
 import '../getservicedropdown.dart';
 import '../manager/get_sku_lookup_by_id_manager.dart';
@@ -27,6 +26,7 @@ class _FormCartState extends State<FormCart> {
   String? selectedSubcategoryTitle;
   String? selectedSizeTitle;
   String? selectedUnitTitle;
+  String? selectedBrandTitle;
 
   final _barcodeTextField = TextEditingController();
   final _itemNameTextFieldController = TextEditingController();
@@ -42,49 +42,50 @@ class _FormCartState extends State<FormCart> {
 
     return SafeArea(
       child: Scaffold(
-          body: SingleChildScrollView(
-        child: Column(
-          //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: SingleChildScrollView(
+          child: Column(
+            //  mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-          children: [
-            const Appbar(),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: 800,
-              // color: Colors.amber,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _barcode(width),
-                  const SpaceHeight(),
-                  _itemTitle(width),
-                  const SpaceHeight(),
-                  _department(width),
-                  const SpaceHeight(),
-                  _categories(width),
-                  const SpaceHeight(),
-                  _subcategories(width),
-                  const SpaceHeight(),
-                  _brands(),
-                  const SpaceHeight(),
-                  _size(width),
-                  const SpaceHeight(),
-                  _units(width),
-                  const SpaceHeight(),
-                  _price(width),
-                  const SpaceHeight(),
-                  _button(),
-                  const SpaceHeight(),
-                ],
+            children: [
+              const Appbar(),
+              const SizedBox(
+                height: 10,
               ),
-            ),
-          ],
+              Container(
+                padding: const EdgeInsets.all(8),
+                width: 800,
+                // color: Colors.amber,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _barcode(width),
+                    const SpaceHeight(),
+                    _itemTitle(width),
+                    const SpaceHeight(),
+                    _department(width),
+                    const SpaceHeight(),
+                    _categories(width),
+                    const SpaceHeight(),
+                    _subcategories(width),
+                    const SpaceHeight(),
+                    _brands(width),
+                    const SpaceHeight(),
+                    _size(width),
+                    const SpaceHeight(),
+                    _units(width),
+                    const SpaceHeight(),
+                    _price(width),
+                    const SpaceHeight(),
+                    _button(),
+                    const SpaceHeight(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 
@@ -197,7 +198,7 @@ class _FormCartState extends State<FormCart> {
             child: DropdownButton<String>(
               hint: const Text('เลือก'),
               // isExpanded: true,
-              value: selectedUnitTitle ,
+              value: selectedUnitTitle,
               elevation: 16,
               style: const TextStyle(color: Colors.black),
               items: getDropdownItem().map((String title) {
@@ -284,15 +285,41 @@ class _FormCartState extends State<FormCart> {
     );
   }
 
-  Row _brands() {
+  Row _brands(width) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Textlable(title: 'Brand'),
         Row(
-          children: const [
-            Brand(),
-            addbuttonBrand(),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  // color: Colors.amber,
+                  border: Border.all(
+                    width: 1,
+                  )),
+              height: 50,
+              width: width / 4,
+              child: Autocomplete(
+                initialValue: TextEditingValue(
+                  text: selectedBrandTitle ?? '',
+                ),
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return getBrandItem().where((value) {
+                    return value.contains(textEditingValue.text.toLowerCase());
+                  });
+                },
+                onSelected: (selection) {
+                  debugPrint(selection);
+                },
+              ),
+            ),
+            const addbuttonBrand(),
           ],
         ),
       ],
@@ -394,14 +421,7 @@ class _FormCartState extends State<FormCart> {
                     value: '',
                     elevation: 16,
                     style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      //  print(value);
-                      setState(() {
-                        if (value != null) {
-                          selectedCategoryTitle = value;
-                        }
-                      });
-                    },
+                    onChanged: (value) {},
                     items: const [],
                   ),
                 ),
@@ -529,17 +549,19 @@ class _FormCartState extends State<FormCart> {
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(10)),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
+                onSubmitted: (barcode) async {
+                  onUserInputBarcode(barcode);
+                },
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  print('Scan');
                 },
                 child: Container(
                   width: 100,
@@ -565,8 +587,9 @@ class _FormCartState extends State<FormCart> {
     });
   }
 
-  Future<void> onScannedBarcode(String barcode) async {
+  Future<void> onUserInputBarcode(String barcode) async {
     SkuLookUpByIdManager manager = SkuLookUpByIdManager();
+    barcode = '8850250007425';
     dynamic result = await manager.getSkuLookupById(barcode);
 
     if (result.runtimeType == GetSkuModel) {
@@ -583,14 +606,17 @@ class _FormCartState extends State<FormCart> {
         for (ProductgroupsModel productGroup in listProductGroupsOnDevice) {
           if (productGroup.prodcatID ==
               itemData.prodGroupID.toStringAsFixed(0)) {
-            selectedDepartment = itemData.prodGroupID.toStringAsFixed(0);
+            selectedDepartment = productGroup.th_prodcat;
             break;
           }
         }
 
         for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
           if (category.id == itemData.prodCatID.toStringAsFixed(0)) {
-            selectedCategoryTitle = itemData.prodCatID.toStringAsFixed(0);
+            selectedCategoryTitle = category.title;
+            for(SubcateInCateModel subcategory in category.subcates) {
+              //TODO: extract subcategory title here.
+            }
             break;
           }
         }
@@ -613,6 +639,16 @@ class _FormCartState extends State<FormCart> {
 
   void clearText() {
     _barcodeTextField.clear();
+  }
+
+  List<String> getBrandItem() {
+    List<String> listBrandItem = [];
+    for (var i = 0; i < listBrandOnDevice.length; i++) {
+      String brandItem = listBrandOnDevice[i].tH_Brand;
+      listBrandItem.add(brandItem);
+    }
+    // print(listBrandItem);
+    return listBrandItem;
   }
 }
 
