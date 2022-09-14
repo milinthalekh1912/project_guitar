@@ -51,12 +51,10 @@ class _FormCartState extends State<FormCart> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            //  mainAxisAlignment: MainAxisAlignment.spaceAround,
-
             children: [
               const Appbar(),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
               Container(
                 padding: const EdgeInsets.all(8),
@@ -274,23 +272,24 @@ class _FormCartState extends State<FormCart> {
           flex: 4,
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextField(
+                    controller: _priceTextFieldController,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                    ],
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
                     ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  controller: _priceTextFieldController,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
-                  ],
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
                   ),
                 ),
               ),
@@ -355,53 +354,53 @@ class _FormCartState extends State<FormCart> {
           flex: 4,
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextField(
+                    controller: _sizeTextFieldController,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
                     ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  controller: _sizeTextFieldController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
                   ),
                 ),
               ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // color: Colors.amber,
-                    border: Border.all(
-                      width: 1,
-                    )),
-                height: 50,
-                width: 150,
-                // height: 0,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    hint: const Text('เลือก'),
-                    // isExpanded: true,
-                    value: selectedSizeTitle,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedSizeTitle = value;
-                      });
-                    },
-                    items: getProductDropdownItem().map((String title) {
-                      return DropdownMenuItem(
-                        value: title,
-                        child: Text(title),
-                      );
-                    }).toList(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      // color: Colors.amber,
+                      border: Border.all(
+                        width: 1,
+                      )),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      hint: const Text('เลือก'),
+                      // isExpanded: true,
+                      value: selectedSizeTitle,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedSizeTitle = value;
+                        });
+                      },
+                      items: getProductDropdownItem().map((String title) {
+                        return DropdownMenuItem(
+                          value: title,
+                          child: Text(title),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               )
@@ -421,64 +420,68 @@ class _FormCartState extends State<FormCart> {
           flex: 4,
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     // color: Colors.amber,
                     border: Border.all(
                       width: 1,
-                    )),
-                height: 50,
-                child: Autocomplete(
-                  fieldViewBuilder: (context, textEditingController, focusNode,
-                          onFieldSubmitted) =>
-                      TextFormField(
-                    controller: textEditingController
-                      ..text = selectedBrandTitle ?? '',
-                    focusNode: focusNode,
+                    ),
                   ),
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text == '') {
-                      return const Iterable<String>.empty();
-                    }
-                    return getBrandItem().where((value) {
-                      return value
-                          .contains(textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  onSelected: (selection) {
-                    debugPrint(selection);
-                  },
+                  child: Autocomplete(
+                    fieldViewBuilder: (context, textEditingController,
+                            focusNode, onFieldSubmitted) =>
+                        TextFormField(
+                      controller: textEditingController
+                        ..text = selectedBrandTitle ?? '',
+                      focusNode: focusNode,
+                    ),
+                    optionsBuilder: (TextEditingValue textEditingValue) {
+                      if (textEditingValue.text == '') {
+                        return const Iterable<String>.empty();
+                      }
+                      return getBrandItem().where(
+                        (value) {
+                          return value
+                              .contains(textEditingValue.text.toLowerCase());
+                        },
+                      );
+                    },
+                    onSelected: (selection) {
+                      selectedBrandTitle = selection;
+                    },
+                  ),
                 ),
               ),
-              const Spacer(),
-              Container(
-                height: 50,
-                width: 100,
-                decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 1,
-                    )),
-                child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(Colors.green),
-                  ),
-                  onPressed: (() async {
-                    dynamic newBrandTitle = await addBrandDialog(context);
-                    setState(() {
-                      if (newBrandTitle != null &&
-                          newBrandTitle.runtimeType == String) {
-                        selectedBrandTitle = newBrandTitle;
-                      }
-                    });
-                  }),
-                  child: const Center(
-                    child: Text(
-                      'เพิ่ม',
-                      style: TextStyle(color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 1,
+                      )),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    onPressed: (() async {
+                      dynamic newBrandTitle = await addBrandDialog(context);
+                      setState(() {
+                        if (newBrandTitle != null &&
+                            newBrandTitle.runtimeType == String) {
+                          selectedBrandTitle = newBrandTitle;
+                        }
+                      });
+                    }),
+                    child: const Center(
+                      child: Text(
+                        'เพิ่ม',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -717,41 +720,41 @@ class _FormCartState extends State<FormCart> {
           flex: 4,
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                height: 50,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  controller: _barcodeTextField,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  onSubmitted: (barcode) async {
-                    onUserInputBarcode(barcode);
-                  },
-                ),
-              ),
-              Spacer(),
-              GestureDetector(
-                onTap: () async {
-                  String barcodeScanRes =
-                      await FlutterBarcodeScanner.scanBarcode(
-                          "#ff6666", "ยกเลิก", false, ScanMode.DEFAULT);
-                  onUserInputBarcode(barcodeScanRes);
-                },
+              Expanded(
                 child: Container(
-                  width: 100,
-                  height: 50,
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       border: Border.all(
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(10)),
-                  child: const Icon(Icons.camera_alt_outlined),
+                  child: TextField(
+                    controller: _barcodeTextField,
+                    onSubmitted: (barcode) async {
+                      onUserInputBarcode(barcode);
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    String barcodeScanRes =
+                        await FlutterBarcodeScanner.scanBarcode(
+                            "#ff6666", "ยกเลิก", false, ScanMode.DEFAULT);
+                    onUserInputBarcode(barcodeScanRes);
+                  },
+                  child: Container(
+                    width: 100,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Icon(Icons.camera_alt_outlined),
+                  ),
                 ),
               ),
             ],
@@ -777,6 +780,10 @@ class _FormCartState extends State<FormCart> {
         _barcodeTextField.text = barcode;
 
         GetSkuModel itemData = result as GetSkuModel;
+
+        print(itemData.skuid);
+        print(itemData.productName);
+        print(itemData.brandID);
 
         skuId = itemData.skuid;
         isVat = itemData.isVat;

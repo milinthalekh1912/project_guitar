@@ -132,12 +132,17 @@ Future<String> addBrandDialog(BuildContext context) async {
                       ),
                       TextButton(
                         onPressed: () async {
+                          //TODO: Validate brand name
+                          //TODO: Show loading dialog
                           BrandManager manager = BrandManager();
                           dynamic result = await manager.postBrand(
                               thController.text, enController.text);
+                          //TODO: Pop dialog
                           if (result.runtimeType == String) {
                             isAddBrandSuccess = true;
                             Navigator.pop(context);
+                          } else {
+                            //TODO: Show error dialog
                           }
                         },
                         child: Container(

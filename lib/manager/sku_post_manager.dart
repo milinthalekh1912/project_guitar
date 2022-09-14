@@ -23,7 +23,7 @@ class SKUPostManager {
     String skuId;
 
     if (result.runtimeType == SkuLookupBarcodeModel &&
-        !updateSku) {
+        !update) {
       print("Barcode Dup");
       return 'Barcode นี้มีอยู่ในระบบแล้ว';
     } else if (result == "Not Found") {
