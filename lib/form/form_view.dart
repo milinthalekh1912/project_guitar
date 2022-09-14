@@ -13,6 +13,7 @@ import '../service/product_group_service/get_product_groups_model.dart';
 import '../service/product_size_service/product_size_model.dart';
 import '../service/product_unit_service/product_unit_model.dart';
 import '../textlable.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class FormCart extends StatefulWidget {
   FormCart({super.key});
@@ -307,7 +308,8 @@ class _FormCartState extends State<FormCart> {
                 fieldViewBuilder: (context, textEditingController, focusNode,
                         onFieldSubmitted) =>
                     TextFormField(
-                  controller: textEditingController..text = selectedBrandTitle ?? '',
+                  controller: textEditingController
+                    ..text = selectedBrandTitle ?? '',
                   focusNode: focusNode,
                 ),
                 optionsBuilder: (TextEditingValue textEditingValue) {
@@ -564,7 +566,11 @@ class _FormCartState extends State<FormCart> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  String barcodeScanRes =
+                      await FlutterBarcodeScanner.scanBarcode("#ff6666", "ยกเลิก", false, ScanMode.DEFAULT);
+                  onUserInputBarcode(barcodeScanRes);
+                },
                 child: Container(
                   width: 100,
                   height: 50,
@@ -573,7 +579,7 @@ class _FormCartState extends State<FormCart> {
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(10)),
-                  child: const Icon(Icons.document_scanner_outlined),
+                  child: const Icon(Icons.camera_alt_outlined),
                 ),
               ),
             ),
@@ -624,9 +630,7 @@ class _FormCartState extends State<FormCart> {
 
         for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
           if (category.id == itemData.prodCatID.toStringAsFixed(0)) {
-            if (category.title != 'โยเกิร์ต') {
-              selectedCategoryTitle = category.title;
-            }
+            selectedCategoryTitle = category.title;
             if (itemData.productSubCatID != null) {
               for (SubcateInCateModel subcategory in category.subcates) {
                 if (subcategory.id ==
