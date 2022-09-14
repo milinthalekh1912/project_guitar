@@ -33,7 +33,7 @@ class SKUPostService {
         return response.body;
       } else if (response.statusCode == 500) {
         print('${response.body} : Status = ${response.statusCode}');
-        return response.body;
+        return 500;
       } else {
         print('${response.body} : Status = ${response.statusCode}');
         throw Exception('Failed to load Data');
