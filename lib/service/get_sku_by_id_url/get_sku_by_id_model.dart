@@ -32,6 +32,7 @@ class GetSkuModel {
   int brandID;
   int prodGroupID;
   int prodCatID;
+  int? productSubCatID;
   int productSizeID;
   int productUnit;
   String? packSize;
@@ -51,6 +52,7 @@ class GetSkuModel {
     required this.brandID,
     required this.prodGroupID,
     required this.prodCatID,
+    required this.productSubCatID,
     required this.productSizeID,
     required this.productUnit,
     required this.packSize,
@@ -72,6 +74,7 @@ class GetSkuModel {
       brandID: json['brandID'],
       prodGroupID: json['productGroupID'],
       prodCatID: json['productCatID'],
+      productSubCatID :json["productSubCatID"],
       productSizeID: json['productSizeID'],
       productUnit: json['productUnit'],
       packSize: json['packSize'] == null ? "0.00" : json['packSize'],
@@ -93,6 +96,7 @@ class GetSkuModel {
     'brandID': brandID,
     'productGroupID': prodGroupID,
     'productCatID': prodCatID,
+    'productSubCatID' : productSubCatID,
     'productSizeID': productSizeID,
     'productUnit': productUnit,
     'PackSize': packSize,

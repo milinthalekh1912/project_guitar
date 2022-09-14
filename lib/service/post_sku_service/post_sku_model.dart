@@ -5,6 +5,7 @@ class PostSkuModel {
   int brandID;
   int productGroupID;
   int productCatID;
+  int productSubCatID;
   int productSizeID;
   int productUnit;
   String packSize;
@@ -24,6 +25,7 @@ class PostSkuModel {
     required this.brandID,
     required this.productGroupID,
     required this.productCatID,
+    required this.productSubCatID,
     required this.productSizeID,
     required this.productUnit,
     required this.packSize,
@@ -45,6 +47,7 @@ class PostSkuModel {
       "brandID": brandID,
       "productGroupID": productGroupID,
       "productCatID": productCatID,
+      "productSubCatID" : productSubCatID,
       "productSizeID": productSizeID,
       "productUnit": productUnit,
       "packSize": packSize,

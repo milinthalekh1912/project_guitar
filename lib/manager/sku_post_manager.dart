@@ -39,6 +39,7 @@ class SKUPostManager {
       brandID: model.brandID,
       productGroupID: model.productGroupID,
       productCatID: model.productCatID,
+      productSubCatID: model.productSubCatID,
       productSizeID: model.productSizeID,
       productUnit: model.productUnit,
       packSize: model.packSize, //
