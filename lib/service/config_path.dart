@@ -2,7 +2,7 @@
 
 //Domain
 String domain =
-    'https://posmcmc-uat.thaibevapp.com'; //https://posmcmc-dev.thaibevapp.com,/https://tccposbackendgateway.azurewebsites.net
+    'https://tccposbackendgateway.azurewebsites.net'; //https://posmcmc-dev.thaibevapp.com,/https://tccposbackendgateway.azurewebsites.net
 String domain_apk =
     'https://pos-s3uat.thaibevapp.com'; //https://pos-s3uat.thaibevapp.com //https://pos-s3.thaibevapp.com
 

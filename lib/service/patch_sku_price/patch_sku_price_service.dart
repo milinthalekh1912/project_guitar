@@ -24,10 +24,8 @@ class Patch_SKU_Price_API_Service {
     for (SkuPriceModel i in items.items) {
       list.add(i.toJson());
     }
-    print(list);
     try {
       // Logger logger = Logger();
-      String logMsg = 'API Post SKU Price Request - ';
 
       final response = await http
           .post(
@@ -42,68 +40,24 @@ class Patch_SKU_Price_API_Service {
           .timeout(
             const Duration(seconds: 30),
           );
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        logMsg += 'Complete : Status = ${response.statusCode}';
-        // LogContents logContents = LogContents(
-        //   logOrigin: 'request',
-        //   logType: LogTypes.info,
-        //   logMessage: logMsg,
-        //   timeStamp: DateTime.now().toString(),
-        // );
-        // logger.log(contents: logContents);
+        print('API Post SKU Price Request - Complete : Status = ${response.statusCode}');
 
         return response.statusCode;
       } else if (response.statusCode == 401) {
-        logMsg += '${response.statusCode} : Status = ${response.body}';
-
-        // LogContents logContents = LogContents(
-        //   logOrigin: 'request',
-        //   logType: LogTypes.info,
-        //   logMessage: logMsg,
-        //   timeStamp: DateTime.now().toString(),
-        // );
-        // logger.log(contents: logContents);
-
+        print('API Post SKU Price Request - ${response.statusCode} : Status = ${response.body}');
         return {"errorDetails": "Unauthorized"};
       } else if (response.statusCode == 500) {
-        logMsg += '${response.statusCode} : Status = ${response.body}';
-
-        // LogContents logContents = LogContents(
-        //   logOrigin: 'request',
-        //   logType: LogTypes.info,
-        //   logMessage: logMsg,
-        //   timeStamp: DateTime.now().toString(),
-        // );
-        // logger.log(contents: logContents);
+        print('API Post SKU Price Request - ${response.statusCode} : Status = ${response.body}');
 
         return GetBrandModelResponse500Model.fromJson(
             jsonDecode(response.body));
       } else {
-        logMsg += '${response.statusCode} : Status = ${response.body}';
-
-        // LogContents logContents = LogContents(
-        //   logOrigin: 'request',
-        //   logType: LogTypes.info,
-        //   logMessage: logMsg,
-        //   timeStamp: DateTime.now().toString(),
-        // );
-        // logger.log(contents: logContents);
-
+        print('API Post SKU Price Request - ${response.statusCode} : Status = ${response.body}');
         throw Exception('Failed to load Data');
       }
     } on TimeoutException catch (e) {
-      // Logger logger = Logger();
-      String logMsg = 'API Get Brand Request - TimeoutException Request again';
-
-      // LogContents logContents = LogContents(
-      //   logOrigin: 'request',
-      //   logType: LogTypes.info,
-      //   logMessage: logMsg,
-      //   timeStamp: DateTime.now().toString(),
-      // );
-      // logger.log(contents: logContents);
-
+      print('API Get Brand Request - TimeoutException Request again');
       await patchSkuPriceRequest(
         model,
         items,

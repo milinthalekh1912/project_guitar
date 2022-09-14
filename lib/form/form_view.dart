@@ -226,12 +226,18 @@ class _FormCartState extends State<FormCart> {
                 sizeTitle: selectedSizeTitle!,
                 unitTitle: selectedUnitTitle!,
               );
+              bool update;
+              if(skuId == null){
+                update = false;
+              }else{
+                update = true;
+              }
 
               String? result = await manager.createSkuDetails(
                 skuModel,
                 titleModel,
                 _barcodeTextField.text,
-                skuId != null,
+                update,
               );
 
               if (result != null) {
