@@ -108,10 +108,11 @@ class _FormCartState extends State<FormCart> {
               decoration: BoxDecoration(
                   color: Colors.red, borderRadius: BorderRadius.circular(10)),
               child: const Center(
-                  child: Text(
-                'Reset',
-                style: TextStyle(color: Colors.white),
-              )),
+                child: Text(
+                  'Reset',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ),
           const SizedBox(
@@ -132,10 +133,11 @@ class _FormCartState extends State<FormCart> {
                   ),
                   borderRadius: BorderRadius.circular(10)),
               child: const Center(
-                  child: Text(
-                'บันทึก',
-                style: TextStyle(color: Colors.green),
-              )),
+                child: Text(
+                  'บันทึก',
+                  style: TextStyle(color: Colors.green),
+                ),
+              ),
             ),
           ),
         ],
@@ -329,7 +331,8 @@ class _FormCartState extends State<FormCart> {
               onPressed: (() async {
                 dynamic newBrandTitle = await addBrandDialog(context);
                 setState(() {
-                  if(newBrandTitle != null && newBrandTitle.runtimeType == String) {
+                  if (newBrandTitle != null &&
+                      newBrandTitle.runtimeType == String) {
                     selectedBrandTitle = newBrandTitle;
                   }
                 });
@@ -697,7 +700,6 @@ class _FormCartState extends State<FormCart> {
     // print(listBrandItem);
     return listBrandItem;
   }
-
 }
 
 class SpaceHeight extends StatelessWidget {

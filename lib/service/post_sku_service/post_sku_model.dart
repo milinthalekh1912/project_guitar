@@ -18,6 +18,14 @@ class PostSkuModel {
   String? merchantID;
   String? mapSKU;
 
+  // String departmentTitle;
+  // String categoryTitle;
+  // String subcategoryTitle;
+  // String brandTitle;
+  // String sizeTitle;
+  // String unitTitle;
+
+
   PostSkuModel({
     required this.skuid,
     required this.barcodePos,
