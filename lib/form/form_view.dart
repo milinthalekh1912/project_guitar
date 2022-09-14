@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form/service/brand_service/brand_model.dart';
 import 'package:form/service/get_sku_by_id_url/get_sku_by_id_model.dart';
 import 'package:form/service/get_sku_lookup_by_barcode/get_sku_lookup_by_barcode_model.dart';
 import '../appbar_form.dart';
@@ -303,8 +304,11 @@ class _FormCartState extends State<FormCart> {
               height: 50,
               width: width / 4,
               child: Autocomplete(
-                initialValue: TextEditingValue(
-                  text: selectedBrandTitle ?? '',
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                        onFieldSubmitted) =>
+                    TextFormField(
+                  controller: textEditingController..text = selectedBrandTitle ?? '',
+                  focusNode: focusNode,
                 ),
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   if (textEditingValue.text == '') {
@@ -446,10 +450,8 @@ class _FormCartState extends State<FormCart> {
                     onChanged: (value) {
                       //  print(value);
                       setState(() {
-                        if (value != null) {
-                          selectedCategoryTitle = value;
-                          selectedSubcategoryTitle = null;
-                        }
+                        selectedCategoryTitle = value;
+                        selectedSubcategoryTitle = null;
                       });
                     },
                     items: extractCategoriesTitle(selectedDepartment!)
@@ -550,6 +552,7 @@ class _FormCartState extends State<FormCart> {
                   ),
                   borderRadius: BorderRadius.circular(10)),
               child: TextField(
+                controller: _barcodeTextField,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
@@ -561,8 +564,7 @@ class _FormCartState extends State<FormCart> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                onTap: () {
-                },
+                onTap: () {},
                 child: Container(
                   width: 100,
                   height: 50,
@@ -589,12 +591,15 @@ class _FormCartState extends State<FormCart> {
 
   Future<void> onUserInputBarcode(String barcode) async {
     SkuLookUpByIdManager manager = SkuLookUpByIdManager();
-    barcode = '8850250007425';
+    barcode = '8850011053739';
     dynamic result = await manager.getSkuLookupById(barcode);
 
     if (result.runtimeType == GetSkuModel) {
       setState(() {
         GetSkuModel itemData = result as GetSkuModel;
+
+        _barcodeTextField.text = barcode;
+
         _itemNameTextFieldController.text = itemData.productName;
 
         if (itemData.packSize != null) {
@@ -602,6 +607,12 @@ class _FormCartState extends State<FormCart> {
         }
 
         _priceTextFieldController.text = itemData.price.toStringAsFixed(2);
+
+        for (BrandModel brandModel in listBrandOnDevice) {
+          if (brandModel.brandID == itemData.brandID.toStringAsFixed(0)) {
+            selectedBrandTitle = brandModel.tH_Brand;
+          }
+        }
 
         for (ProductgroupsModel productGroup in listProductGroupsOnDevice) {
           if (productGroup.prodcatID ==
@@ -613,9 +624,17 @@ class _FormCartState extends State<FormCart> {
 
         for (ProductCategoriesModel category in listProductCategoriesOnDevice) {
           if (category.id == itemData.prodCatID.toStringAsFixed(0)) {
-            selectedCategoryTitle = category.title;
-            for(SubcateInCateModel subcategory in category.subcates) {
-              //TODO: extract subcategory title here.
+            if (category.title != 'โยเกิร์ต') {
+              selectedCategoryTitle = category.title;
+            }
+            if (itemData.productSubCatID != null) {
+              for (SubcateInCateModel subcategory in category.subcates) {
+                if (subcategory.id ==
+                    itemData.productSubCatID!.toStringAsFixed(0)) {
+                  selectedSubcategoryTitle = subcategory.title;
+                  break;
+                }
+              }
             }
             break;
           }
