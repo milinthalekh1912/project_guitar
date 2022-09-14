@@ -428,6 +428,7 @@ class _FormCartState extends State<FormCart> {
                       setState(() {
                         if (value != null) {
                           selectedCategoryTitle = value;
+                          selectedSubcategoryTitle = null;
                         }
                       });
                     },
@@ -470,6 +471,8 @@ class _FormCartState extends State<FormCart> {
               onChanged: (value) {
                 setState(() {
                   selectedDepartment = value;
+                  selectedCategoryTitle = null;
+                  selectedSubcategoryTitle = null;
                 });
               },
               items: extractDepartmentTitle().map((String title) {
