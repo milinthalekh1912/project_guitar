@@ -35,6 +35,8 @@ class _FormCartState extends State<FormCart> {
   final _sizeTextFieldController = TextEditingController();
   final _priceTextFieldController = TextEditingController();
 
+  String? errorMsg;
+
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_typing_uninitialized_variables
@@ -100,7 +102,19 @@ class _FormCartState extends State<FormCart> {
         children: [
           GestureDetector(
             onTap: () {
-              print('event Reset');
+              setState(() {
+                _barcodeTextField.text = '';
+                _itemNameTextFieldController.text = '';
+                _priceTextFieldController.text = '';
+                _sizeTextFieldController.text = '';
+
+                selectedBrandTitle = null;
+                selectedSubcategoryTitle = null;
+                selectedCategoryTitle = null;
+                selectedDepartment = null;
+                selectedSizeTitle = null;
+                selectedUnitTitle = null;
+              });
             },
             child: Container(
               height: 50,
