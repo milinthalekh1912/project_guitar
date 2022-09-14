@@ -325,7 +325,32 @@ class _FormCartState extends State<FormCart> {
                 },
               ),
             ),
-            const addbuttonBrand(),
+            TextButton(
+              onPressed: (() async {
+                dynamic newBrandTitle = await addBrandDialog(context);
+                setState(() {
+                  if(newBrandTitle != null && newBrandTitle.runtimeType == String) {
+                    selectedBrandTitle = newBrandTitle;
+                  }
+                });
+              }),
+              child: Container(
+                height: 50,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                    )),
+                child: const Center(
+                  child: Text(
+                    'เพิ่ม',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -568,7 +593,8 @@ class _FormCartState extends State<FormCart> {
               child: GestureDetector(
                 onTap: () async {
                   String barcodeScanRes =
-                      await FlutterBarcodeScanner.scanBarcode("#ff6666", "ยกเลิก", false, ScanMode.DEFAULT);
+                      await FlutterBarcodeScanner.scanBarcode(
+                          "#ff6666", "ยกเลิก", false, ScanMode.DEFAULT);
                   onUserInputBarcode(barcodeScanRes);
                 },
                 child: Container(
@@ -597,14 +623,12 @@ class _FormCartState extends State<FormCart> {
 
   Future<void> onUserInputBarcode(String barcode) async {
     SkuLookUpByIdManager manager = SkuLookUpByIdManager();
-    barcode = '8850011053739';
+    _barcodeTextField.text = barcode;
     dynamic result = await manager.getSkuLookupById(barcode);
 
     if (result.runtimeType == GetSkuModel) {
       setState(() {
         GetSkuModel itemData = result as GetSkuModel;
-
-        _barcodeTextField.text = barcode;
 
         _itemNameTextFieldController.text = itemData.productName;
 
@@ -673,6 +697,7 @@ class _FormCartState extends State<FormCart> {
     // print(listBrandItem);
     return listBrandItem;
   }
+
 }
 
 class SpaceHeight extends StatelessWidget {

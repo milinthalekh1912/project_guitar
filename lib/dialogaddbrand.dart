@@ -1,40 +1,16 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
+import 'package:form/manager/get_brand_manager.dart';
 
-class addbuttonBrand extends StatelessWidget {
-  const addbuttonBrand({
-    Key? key,
-  }) : super(key: key);
+Future<String> addBrandDialog(BuildContext context) async {
 
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: (() {
-        addBrandDialog(context); //Dialog
-      }),
-      child: Container(
-          height: 50,
-          width: 100,
-          decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                width: 1,
-              )),
-          child: const Center(
-            child: Text(
-              'เพิ่ม',
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-    );
-  }
-}
+  bool isAddBrandSuccess = false;
+  TextEditingController thController = TextEditingController();
+  TextEditingController enController = TextEditingController();
 
-Future<dynamic> addBrandDialog(BuildContext context) {
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
+  await showDialog(
+    context: context,
+    builder: (_) {
+      return AlertDialog(
         elevation: 16,
         // title: const Text('เพิ่ม brand'),
         actions: [
@@ -51,10 +27,11 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                          onPressed: (() {
-                            Navigator.pop(context);
-                          }),
-                          icon: const Icon(Icons.close))
+                        onPressed: (() {
+                          Navigator.pop(context);
+                        }),
+                        icon: const Icon(Icons.close),
+                      ),
                     ],
                   ),
                   Row(
@@ -67,20 +44,23 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                       Column(
                         children: [
                           Container(
-                              height: 50,
-                              width: 200,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                  )),
-                              child: const Center(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
+                            height: 50,
+                            width: 200,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                              ),
+                            ),
+                            child: Center(
+                              child: TextField(
+                                controller: thController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -101,20 +81,23 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                       Column(
                         children: [
                           Container(
-                              padding: const EdgeInsets.all(8.0),
-                              height: 50,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                  )),
-                              child: const Center(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
+                            padding: const EdgeInsets.all(8.0),
+                            height: 50,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                              ),
+                            ),
+                            child: Center(
+                              child: TextField(
+                                controller: enController,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -128,7 +111,8 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print('event Reset');
+                          thController.text = '';
+                          enController.text = '';
                         },
                         child: Container(
                           height: 50,
@@ -138,17 +122,23 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                               borderRadius: BorderRadius.circular(10)),
                           child: const Center(
                               child: Text(
-                                'Reset',
-                                style: TextStyle(color: Colors.white),
-                              )),
+                            'Reset',
+                            style: TextStyle(color: Colors.white),
+                          )),
                         ),
                       ),
                       const SizedBox(
                         width: 20,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          print('event Submit');
+                      TextButton(
+                        onPressed: () async {
+                          BrandManager manager = BrandManager();
+                          dynamic result = await manager.postBrand(
+                              thController.text, enController.text);
+                          if (result.runtimeType == String) {
+                            isAddBrandSuccess = true;
+                            Navigator.pop(context);
+                          }
                         },
                         child: Container(
                           height: 50,
@@ -166,7 +156,7 @@ Future<dynamic> addBrandDialog(BuildContext context) {
                                 style: TextStyle(color: Colors.green),
                               )),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ],
@@ -174,5 +164,12 @@ Future<dynamic> addBrandDialog(BuildContext context) {
             ),
           )
         ],
-      ));
+      );
+    },
+  );
+
+  if (isAddBrandSuccess) {
+    return thController.text;
+  }
+  return '';
 }
