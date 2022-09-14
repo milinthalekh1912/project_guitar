@@ -162,19 +162,7 @@ class _FormCartState extends State<FormCart> {
         children: [
           GestureDetector(
             onTap: () {
-              setState(() {
-                _barcodeTextField.text = '';
-                _itemNameTextFieldController.text = '';
-                _priceTextFieldController.text = '';
-                _sizeTextFieldController.text = '';
-
-                selectedBrandTitle = null;
-                selectedSubcategoryTitle = null;
-                selectedCategoryTitle = null;
-                selectedDepartment = null;
-                selectedSizeTitle = null;
-                selectedUnitTitle = null;
-              });
+              reset();
             },
             child: Container(
               height: 50,
@@ -227,9 +215,9 @@ class _FormCartState extends State<FormCart> {
                 unitTitle: selectedUnitTitle!,
               );
               bool update;
-              if(skuId == null){
+              if (skuId == null) {
                 update = false;
-              }else{
+              } else {
                 update = true;
               }
 
@@ -240,8 +228,14 @@ class _FormCartState extends State<FormCart> {
                 update,
               );
 
+              if(result.runtimeType == Map<String, dynamic>) {
+                //TODO: Show error dialog
+                return;
+              }
+
               if (result != null) {
                 //TODO: Show Success dialog
+                reset();
               } else {
                 //TODO: show barcode dup dialog
               }
@@ -861,6 +855,22 @@ class _FormCartState extends State<FormCart> {
     }
     // print(listBrandItem);
     return listBrandItem;
+  }
+
+  void reset() {
+    setState(() {
+      _barcodeTextField.text = '';
+      _itemNameTextFieldController.text = '';
+      _priceTextFieldController.text = '';
+      _sizeTextFieldController.text = '';
+
+      selectedBrandTitle = null;
+      selectedSubcategoryTitle = null;
+      selectedCategoryTitle = null;
+      selectedDepartment = null;
+      selectedSizeTitle = null;
+      selectedUnitTitle = null;
+    });
   }
 }
 
