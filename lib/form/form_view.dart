@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form/color.dart';
 import 'package:form/service/brand_service/brand_model.dart';
 import 'package:form/service/get_sku_by_id_url/get_sku_by_id_model.dart';
 import 'package:form/service/get_sku_lookup_by_barcode/get_sku_lookup_by_barcode_model.dart';
@@ -35,15 +36,13 @@ class _FormCartState extends State<FormCart> {
   final _sizeTextFieldController = TextEditingController();
   final _priceTextFieldController = TextEditingController();
 
+  bool isVat = true;
+  bool isInTongFahCampaign = true;
+
   String? errorMsg;
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_typing_uninitialized_variables
-    var size, width;
-    size = MediaQuery.of(context).size;
-    width = size.width;
-
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -63,23 +62,26 @@ class _FormCartState extends State<FormCart> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _barcode(width),
+                    _barcode(),
                     const SpaceHeight(),
-                    _itemTitle(width),
+                    _itemTitle(),
                     const SpaceHeight(),
-                    _department(width),
+                    _department(),
                     const SpaceHeight(),
-                    _categories(width),
+                    _categories(),
                     const SpaceHeight(),
-                    _subcategories(width),
+                    _subcategories(),
                     const SpaceHeight(),
-                    _brands(width),
+                    _brands(),
                     const SpaceHeight(),
-                    _size(width),
+                    _size(),
                     const SpaceHeight(),
-                    _units(width),
+                    _units(),
                     const SpaceHeight(),
-                    _price(width),
+                    _price(),
+                    const SpaceHeight(),
+                    _vat(),
+                    _tongFah(),
                     const SpaceHeight(),
                     _button(),
                     const SpaceHeight(),
@@ -90,6 +92,62 @@ class _FormCartState extends State<FormCart> {
           ),
         ),
       ),
+    );
+  }
+
+  Row _vat() {
+    return Row(
+      children: [
+        const Expanded(
+          flex: 3,
+          child: Textlable(title: 'คำนวนภาษีมูลค่าเพิ่ม 7%'),
+        ),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Switch(
+                activeColor: kPrimaryColor,
+                value: isVat,
+                onChanged: (newValue) {
+                  setState(() {
+                    isVat = newValue;
+                  });
+                },
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _tongFah() {
+    return Row(
+      children: [
+        const Expanded(
+          flex: 3,
+          child: Textlable(title: 'เข้าร่วมโครงการธงฟ้าประชารัฐ'),
+        ),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Switch(
+                activeColor: kPrimaryColor,
+                value: isInTongFahCampaign,
+                onChanged: (newValue) {
+                  setState(() {
+                    isInTongFahCampaign = newValue;
+                  });
+                },
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -159,77 +217,81 @@ class _FormCartState extends State<FormCart> {
     );
   }
 
-  Row _price(width) {
+  Row _price() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'ราคา'),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: width / 4,
-              height: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
+        const Expanded(flex: 3, child: Textlable(title: 'ราคา')),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextField(
+                  controller: _priceTextFieldController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+                  ],
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
                   ),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                controller: _priceTextFieldController,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
-                ],
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(5.0),
-              child: SizedBox(width: 100, child: Center(child: Text('บาท'))),
-            ),
-          ],
+              const Padding(
+                padding: EdgeInsets.all(5.0),
+                child: SizedBox(width: 100, child: Center(child: Text('บาท'))),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Row _units(width) {
+  Row _units() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'หน่วยขาย'),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
+        const Expanded(flex: 3, child: Textlable(title: 'หน่วยขาย')),
+        Expanded(
+          flex: 4,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               // color: Colors.amber,
               border: Border.all(
                 width: 1,
-              )),
-          height: 50,
-          width: width / 3,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              hint: const Text('เลือก'),
-              // isExpanded: true,
-              value: selectedUnitTitle,
-              elevation: 16,
-              style: const TextStyle(color: Colors.black),
-              items: getDropdownItem().map((String title) {
-                return DropdownMenuItem(
-                  value: title,
-                  child: Text(title),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedUnitTitle = value;
-                });
-              },
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                hint: const Text('เลือก'),
+                // isExpanded: true,
+                value: selectedUnitTitle,
+                elevation: 16,
+                style: const TextStyle(color: Colors.black),
+                items: getDropdownItem().map((String title) {
+                  return DropdownMenuItem(
+                    value: title,
+                    child: Text(title),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedUnitTitle = value;
+                  });
+                },
+              ),
             ),
           ),
         ),
@@ -237,34 +299,33 @@ class _FormCartState extends State<FormCart> {
     );
   }
 
-  Row _size(width) {
+  Row _size() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'ปริมาณ/ขนาด'),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: width / 4.8,
-              height: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
+        const Expanded(flex: 3, child: Textlable(title: 'ปริมาณ/ขนาด')),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextField(
+                  controller: _sizeTextFieldController,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
                   ),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                controller: _sizeTextFieldController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
+              const Spacer(),
+              Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -295,63 +356,56 @@ class _FormCartState extends State<FormCart> {
                     }).toList(),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Row _brands(width) {
+  Row _brands() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'Brand'),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  // color: Colors.amber,
-                  border: Border.all(
-                    width: 1,
-                  )),
-              height: 50,
-              width: width / 4,
-              child: Autocomplete(
-                fieldViewBuilder: (context, textEditingController, focusNode,
-                        onFieldSubmitted) =>
-                    TextFormField(
-                  controller: textEditingController
-                    ..text = selectedBrandTitle ?? '',
-                  focusNode: focusNode,
+        const Expanded(flex: 3, child: Textlable(title: 'Brand')),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    // color: Colors.amber,
+                    border: Border.all(
+                      width: 1,
+                    )),
+                height: 50,
+                child: Autocomplete(
+                  fieldViewBuilder: (context, textEditingController, focusNode,
+                          onFieldSubmitted) =>
+                      TextFormField(
+                    controller: textEditingController
+                      ..text = selectedBrandTitle ?? '',
+                    focusNode: focusNode,
+                  ),
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    if (textEditingValue.text == '') {
+                      return const Iterable<String>.empty();
+                    }
+                    return getBrandItem().where((value) {
+                      return value
+                          .contains(textEditingValue.text.toLowerCase());
+                    });
+                  },
+                  onSelected: (selection) {
+                    debugPrint(selection);
+                  },
                 ),
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  if (textEditingValue.text == '') {
-                    return const Iterable<String>.empty();
-                  }
-                  return getBrandItem().where((value) {
-                    return value.contains(textEditingValue.text.toLowerCase());
-                  });
-                },
-                onSelected: (selection) {
-                  debugPrint(selection);
-                },
               ),
-            ),
-            TextButton(
-              onPressed: (() async {
-                dynamic newBrandTitle = await addBrandDialog(context);
-                setState(() {
-                  if (newBrandTitle != null &&
-                      newBrandTitle.runtimeType == String) {
-                    selectedBrandTitle = newBrandTitle;
-                  }
-                });
-              }),
-              child: Container(
+              const Spacer(),
+              Container(
                 height: 50,
                 width: 100,
                 decoration: BoxDecoration(
@@ -360,193 +414,218 @@ class _FormCartState extends State<FormCart> {
                     border: Border.all(
                       width: 1,
                     )),
-                child: const Center(
-                  child: Text(
-                    'เพิ่ม',
-                    style: TextStyle(color: Colors.white),
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.green),
+                  ),
+                  onPressed: (() async {
+                    dynamic newBrandTitle = await addBrandDialog(context);
+                    setState(() {
+                      if (newBrandTitle != null &&
+                          newBrandTitle.runtimeType == String) {
+                        selectedBrandTitle = newBrandTitle;
+                      }
+                    });
+                  }),
+                  child: const Center(
+                    child: Text(
+                      'เพิ่ม',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Row _subcategories(width) {
+  Row _subcategories() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'Subcategories'),
-        selectedCategoryTitle == null
-            ? Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // color: Colors.amber,
-                    border: Border.all(
-                      width: 1,
-                    )),
-                height: 50,
-                width: width / 3,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    hint: const Text('เลือก'),
-                    // isExpanded: true,
-                    value: '',
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          selectedSubcategoryTitle = value;
-                        });
-                      }
-                    },
-                    items: const [],
-                  ),
-                ),
-              )
-            : Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // color: Colors.amber,
-                    border: Border.all(
-                      width: 1,
-                    )),
-                height: 50,
-                width: width / 3,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    hint: const Text('เลือก'),
-                    // isExpanded: true,
-                    value: selectedSubcategoryTitle,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          selectedSubcategoryTitle = value;
-                        });
-                      }
-                    },
-                    items: extractSubcategoriesTitle(selectedCategoryTitle!)
-                        .map((String title) {
-                      return DropdownMenuItem(
-                        value: title,
-                        child: Text(title),
-                      );
-                    }).toList(),
-                  ),
+        const Expanded(flex: 3, child: Textlable(title: 'Subcategories')),
+        if (selectedCategoryTitle == null)
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                // color: Colors.amber,
+                border: Border.all(
+                  width: 1,
                 ),
               ),
-      ],
-    );
-  }
-
-  Row _categories(width) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Textlable(title: 'Categories'),
-        selectedDepartment == null
-            ? Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // color: Colors.amber,
-                    border: Border.all(
-                      width: 1,
-                    )),
-                height: 50,
-                width: width / 3,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    hint: const Text('เลือก'),
-                    isExpanded: true,
-                    value: '',
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {},
-                    items: const [],
-                  ),
-                ),
-              )
-            : Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    // color: Colors.amber,
-                    border: Border.all(
-                      width: 1,
-                    )),
-                height: 50,
-                width: width / 3,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                    hint: const Text('เลือก'),
-                    isExpanded: true,
-                    value: selectedCategoryTitle,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      //  print(value);
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: const Text('เลือก'),
+                  // isExpanded: true,
+                  value: '',
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    if (value != null) {
                       setState(() {
-                        selectedCategoryTitle = value;
-                        selectedSubcategoryTitle = null;
+                        selectedSubcategoryTitle = value;
                       });
-                    },
-                    items: extractCategoriesTitle(selectedDepartment!)
-                        .map((String title) {
-                      return DropdownMenuItem(
-                        value: title,
-                        child: Text(title),
-                      );
-                    }).toList(),
-                  ),
+                    }
+                  },
+                  items: const [],
                 ),
               ),
+            ),
+          )
+        else
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  // color: Colors.amber,
+                  border: Border.all(
+                    width: 1,
+                  )),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  hint: const Text('เลือก'),
+                  // isExpanded: true,
+                  value: selectedSubcategoryTitle,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        selectedSubcategoryTitle = value;
+                      });
+                    }
+                  },
+                  items: extractSubcategoriesTitle(selectedCategoryTitle!)
+                      .map((String title) {
+                    return DropdownMenuItem(
+                      value: title,
+                      child: Text(title),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
 
-  Row _department(width) {
+  Row _categories() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'Department'),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
+        const Expanded(flex: 3, child: Textlable(title: 'Categories')),
+        if (selectedDepartment == null)
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                // color: Colors.amber,
+                border: Border.all(
+                  width: 1,
+                ),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: const Text('เลือก'),
+                  isExpanded: true,
+                  value: '',
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {},
+                  items: const [],
+                ),
+              ),
+            ),
+          )
+        else
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                // color: Colors.amber,
+                border: Border.all(
+                  width: 1,
+                ),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  hint: const Text('เลือก'),
+                  isExpanded: true,
+                  value: selectedCategoryTitle,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    //  print(value);
+                    setState(() {
+                      selectedCategoryTitle = value;
+                      selectedSubcategoryTitle = null;
+                    });
+                  },
+                  items: extractCategoriesTitle(selectedDepartment!)
+                      .map((String title) {
+                    return DropdownMenuItem(
+                      value: title,
+                      child: Text(title),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Row _department() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Expanded(flex: 3, child: Textlable(title: 'Department')),
+        Expanded(
+          flex: 4,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               // color: Colors.amber,
               border: Border.all(
                 width: 1,
-              )),
-          height: 50,
-          width: width / 3,
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton(
-              hint: const Text('เลือก'),
-              isExpanded: true,
-              value: selectedDepartment,
-              elevation: 16,
-              style: const TextStyle(color: Colors.black),
-              onChanged: (value) {
-                setState(() {
-                  selectedDepartment = value;
-                  selectedCategoryTitle = null;
-                  selectedSubcategoryTitle = null;
-                });
-              },
-              items: extractDepartmentTitle().map((String title) {
-                return DropdownMenuItem(
-                  value: title,
-                  child: Text(title),
-                );
-              }).toList(),
+              ),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                hint: const Text('เลือก'),
+                isExpanded: true,
+                value: selectedDepartment,
+                elevation: 16,
+                style: const TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  setState(() {
+                    selectedDepartment = value;
+                    selectedCategoryTitle = null;
+                    selectedSubcategoryTitle = null;
+                  });
+                },
+                items: extractDepartmentTitle().map((String title) {
+                  return DropdownMenuItem(
+                    value: title,
+                    child: Text(title),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -554,24 +633,26 @@ class _FormCartState extends State<FormCart> {
     );
   }
 
-  Row _itemTitle(width) {
+  Row _itemTitle() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'ชื่อสินค้า'),
-        Container(
-          padding: const EdgeInsets.all(8),
-          width: width / 3,
-          height: 50,
-          decoration: BoxDecoration(
+        const Expanded(flex: 3, child: Textlable(title: 'ชื่อสินค้า')),
+        Expanded(
+          flex: 4,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
               ),
-              borderRadius: BorderRadius.circular(10)),
-          child: TextField(
-            controller: _itemNameTextFieldController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: TextField(
+              controller: _itemNameTextFieldController,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
             ),
           ),
         ),
@@ -579,35 +660,35 @@ class _FormCartState extends State<FormCart> {
     );
   }
 
-  Row _barcode(width) {
+  Row _barcode() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Textlable(title: 'Barcode'),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              width: width / 4.1,
-              height: 50,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
+        const Expanded(flex: 3, child: Textlable(title: 'Barcode')),
+        Expanded(
+          flex: 4,
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                height: 50,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextField(
+                  controller: _barcodeTextField,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
                   ),
-                  borderRadius: BorderRadius.circular(10)),
-              child: TextField(
-                controller: _barcodeTextField,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
+                  onSubmitted: (barcode) async {
+                    onUserInputBarcode(barcode);
+                  },
                 ),
-                onSubmitted: (barcode) async {
-                  onUserInputBarcode(barcode);
-                },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
+              Spacer(),
+              GestureDetector(
                 onTap: () async {
                   String barcodeScanRes =
                       await FlutterBarcodeScanner.scanBarcode(
@@ -625,8 +706,8 @@ class _FormCartState extends State<FormCart> {
                   child: const Icon(Icons.camera_alt_outlined),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -640,12 +721,17 @@ class _FormCartState extends State<FormCart> {
 
   Future<void> onUserInputBarcode(String barcode) async {
     SkuLookUpByIdManager manager = SkuLookUpByIdManager();
-    _barcodeTextField.text = barcode;
+
     dynamic result = await manager.getSkuLookupById(barcode);
 
     if (result.runtimeType == GetSkuModel) {
       setState(() {
+        _barcodeTextField.text = barcode;
+
         GetSkuModel itemData = result as GetSkuModel;
+
+        isVat = itemData.isVat;
+        isInTongFahCampaign = itemData.banForPracharat == 1 ? true : false;
 
         _itemNameTextFieldController.text = itemData.productName;
 
