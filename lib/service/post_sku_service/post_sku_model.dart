@@ -2,12 +2,12 @@ class PostSkuModel {
   String skuid;
   String barcodePos;
   String productName;
-  int brandID;
-  int productGroupID;
-  int productCatID;
-  int productSubCatID;
-  int productSizeID;
-  int productUnit;
+  int? brandID;
+  int? productGroupID;
+  int? productCatID;
+  int? productSubCatID;
+  int? productSizeID;
+  int? productUnit;
   String packSize;
   int unit;
   int banForPracharat;
@@ -17,14 +17,6 @@ class PostSkuModel {
   bool isActive;
   String? merchantID;
   String? mapSKU;
-
-  // String departmentTitle;
-  // String categoryTitle;
-  // String subcategoryTitle;
-  // String brandTitle;
-  // String sizeTitle;
-  // String unitTitle;
-
 
   PostSkuModel({
     required this.skuid,
@@ -55,7 +47,7 @@ class PostSkuModel {
       "brandID": brandID,
       "productGroupID": productGroupID,
       "productCatID": productCatID,
-      "productSubCatID" : productSubCatID,
+      "productSubCatID": productSubCatID,
       "productSizeID": productSizeID,
       "productUnit": productUnit,
       "packSize": packSize,
@@ -69,4 +61,21 @@ class PostSkuModel {
       "mapSKU": mapSKU,
     };
   }
+}
+
+class TitleSkuModel {
+  String departmentTitle;
+  String categoryTitle;
+  String subcategoryTitle;
+  String brandTitle;
+  String sizeTitle;
+  String unitTitle;
+
+  TitleSkuModel(
+      {required this.departmentTitle,
+      required this.categoryTitle,
+      required this.subcategoryTitle,
+      required this.brandTitle,
+      required this.sizeTitle,
+      required this.unitTitle});
 }
