@@ -120,20 +120,17 @@ class _LoginPageState extends State<LoginPage> {
                                 _showMyDialog(
                                     context, 'โปรดระบุ Username และ Password');
                               } else {
+                                LoadingDialog(
+                                        context: context, title: 'กำลังเข้าสู่ระบบ')
+                                    .show();
                                 var result =
                                     await _viewModel.userOnClickLogin();
                                 if (result == true) {
-                                  LoadingDialog(
-                                          context: context, title: 'รอสักครู่')
-                                      .show();
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => FormCart()),
-                                    );
-                                  });
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FormCart()),
+                                  );
                                 } else {
                                   _showMyDialog(context, result);
                                 }
