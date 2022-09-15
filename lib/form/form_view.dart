@@ -233,17 +233,68 @@ class _FormCartState extends State<FormCart> {
 
               PostSkuModel valid = skuModel;
 
-              if(skuModel.productName == null && skuModel.productName == '') {
+              if (skuModel.productName == null && skuModel.productName == '') {
                 errorMsg = 'ชื่อสินค้าไม่ถูกต้อง';
               }
 
-              if(skuModel.barcodePos == null && skuModel.barcodePos == '' && skuModel.barcodePos.length > 15) {
+              if (skuModel.barcodePos == null &&
+                  skuModel.barcodePos == '' &&
+                  skuModel.barcodePos.length > 15) {
                 errorMsg = 'บาร์โค้ดไม่ถูกต้อง';
               }
+              if (skuModel.productName == null && skuModel.productName == '') {
+                errorMsg = 'ชื่อสินค้าไม่ถูกต้อง';
+              }
+              if (skuModel.packSize == null && skuModel.packSize == '') {
+                errorMsg = 'แพ๊คขนาดไม่ถูกต้อง';
+              }
+              if (skuModel.banForPracharat == null &&
+                  skuModel.banForPracharat == '') {
+                errorMsg = 'แพ๊คขนาดไม่ถูกต้อง';
+              }
+              if (skuModel.isVat == null && skuModel.isVat == '') {
+                errorMsg = 'vat ไม่ถูกต้อง';
+              }
+              if (skuModel.createBy == null && skuModel.createBy == '') {
+                errorMsg = 'ข้อมูลลูกค้าไม่ถูกต้อง';
+              }
+              if (skuModel.createDate == null && skuModel.createDate == '') {
+                errorMsg = 'วันที่ไม่ถูกต้อง';
+              }
+              if (skuModel.isActive == null && skuModel.isActive == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
+              if (titleModel.departmentTitle == null &&
+                  titleModel.departmentTitle == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
+               if (titleModel.categoryTitle == null &&
+                  titleModel.categoryTitle == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
+              if (titleModel.subcategoryTitle == null &&
+                  titleModel.subcategoryTitle == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
+              if (titleModel.brandTitle == null &&
+                  titleModel.brandTitle == '') {
+                errorMsg = 'กรุณาเลือกแบนด์';
+              }
+              if (titleModel.sizeTitle == null &&
+                  titleModel.sizeTitle == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
+              if (titleModel.unitTitle == null &&
+                  titleModel.unitTitle == '') {
+                errorMsg = 'ข้อมูลไม่ถูกต้อง';
+              }
 
-
-              if(errorMsg != null) {
-                ErrorDialog(context: context, title: 'ข้อมูลไม่ถูกต้อง', description: errorMsg).show();
+              if (errorMsg != null) {
+                ErrorDialog(
+                        context: context,
+                        title: 'ข้อมูลไม่ถูกต้อง',
+                        description: errorMsg)
+                    .show();
               }
 
               // if (valid.barcodePos != null &&
@@ -267,7 +318,11 @@ class _FormCartState extends State<FormCart> {
               if (result != null) {
                 SuccessDialog(context: context, title: 'บันทึกสำเร็จ').show();
               } else {
-                ErrorDialog(context: context, title: 'เกิดข้อผิดพลาด', description: 'กรุณาลองดำเนินการใหม่ภายหลัง').show();
+                ErrorDialog(
+                        context: context,
+                        title: 'เกิดข้อผิดพลาด',
+                        description: 'กรุณาลองดำเนินการใหม่ภายหลัง')
+                    .show();
               }
             },
             child: Container(
