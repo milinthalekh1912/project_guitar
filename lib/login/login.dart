@@ -125,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                                     .show();
                                 var result =
                                     await _viewModel.userOnClickLogin();
+                                Navigator.pop(context);
                                 if (result == true) {
                                   Navigator.push(
                                     context,

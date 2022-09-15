@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/form/component/dialog.dart';
 import 'package:form/manager/logout_manager.dart';
 
 class Appbar extends StatelessWidget {
@@ -18,7 +19,10 @@ class Appbar extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () async{
+                LoadingDialog loadingDialog = LoadingDialog(context: context, title: 'กำลังออกจากระบบ');
+                loadingDialog.show();
                 await LogoutManager().logoutRequest();
+                Navigator.pop(context);
                 Navigator.pop(context);
               },
               child: Container(
@@ -32,10 +36,6 @@ class Appbar extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                   )),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Logo'),
           ),
         ],
       ),

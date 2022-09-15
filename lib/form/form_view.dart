@@ -238,12 +238,10 @@ class _FormCartState extends State<FormCart> {
                   context: context, title: 'กำลังดำเนินการ กรุณารอสักครู่');
               loadingDialog.show();
 
+              double price = double.parse(_priceTextFieldController.text);
+
               String? result = await manager.createSkuDetails(
-                skuModel,
-                titleModel,
-                _barcodeTextField.text,
-                update,0
-              );
+                  skuModel, titleModel, _barcodeTextField.text, update, price);
               Navigator.pop(context);
 
               if (result == null) {
@@ -306,7 +304,7 @@ class _FormCartState extends State<FormCart> {
     }
 
     if (titleModel.brandTitle == null || titleModel.brandTitle == '') {
-      return 'กรุณาเลือกแบนด์';
+      return 'กรุณาเลือกแบรนด์';
     }
     if (titleModel.sizeTitle == null || titleModel.sizeTitle == '') {
       return 'ข้อมูลปริมาณ/ขนาดไม่ถูกต้อง';
@@ -325,6 +323,16 @@ class _FormCartState extends State<FormCart> {
 
     if (skuModel.banForPracharat == null) {
       return 'แพ๊คขนาดไม่ถูกต้อง';
+    }
+
+    if(_priceTextFieldController.text == null || _priceTextFieldController.text == '') {
+      return 'กรุณาระบุราคา';
+    }
+
+    try {
+      double.parse(_priceTextFieldController.text);
+    } catch (e) {
+      return 'ข้อมูลราคาไม่ถูกต้อง';
     }
 
     if (skuModel.createBy == null || skuModel.createBy == '') {

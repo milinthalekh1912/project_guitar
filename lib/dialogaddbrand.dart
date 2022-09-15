@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/form/component/dialog.dart';
 import 'package:form/manager/get_brand_manager.dart';
 
 Future<String> addBrandDialog(BuildContext context) async {
@@ -12,7 +13,6 @@ Future<String> addBrandDialog(BuildContext context) async {
     builder: (_) {
       return AlertDialog(
         elevation: 16,
-        // title: const Text('เพิ่ม brand'),
         actions: [
           SingleChildScrollView(
             child: Container(
@@ -133,16 +133,28 @@ Future<String> addBrandDialog(BuildContext context) async {
                       TextButton(
                         onPressed: () async {
                           //TODO: Validate brand name
-                          //TODO: Show loading dialog
+
+                          String th = thController.text;
+                          String en = enController.text;
+
+                          if(th == '' || en == '') {
+                            ErrorDialog errorDialog = ErrorDialog(context: context, title: 'กรุณาระบุข้อมูล');
+                            await errorDialog.show();
+                            return;
+                          }
+                          LoadingDialog loadingDialog = LoadingDialog(context: context, title: 'กำลังบันทึกข้อมูล...');
+                          loadingDialog.show();
                           BrandManager manager = BrandManager();
                           dynamic result = await manager.postBrand(
                               thController.text, enController.text);
-                          //TODO: Pop dialog
+                          Navigator.pop(context);
                           if (result.runtimeType == String) {
                             isAddBrandSuccess = true;
                             Navigator.pop(context);
                           } else {
-                            //TODO: Show error dialog
+                            ErrorDialog errorDialog = ErrorDialog(context: context, title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                            await errorDialog.show();
+                            return;
                           }
                         },
                         child: Container(
