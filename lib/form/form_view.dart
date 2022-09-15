@@ -228,48 +228,46 @@ class _FormCartState extends State<FormCart> {
                 skuModel,
                 titleModel,
                 _barcodeTextField.text,
-                skuId != null,
+                update,
               );
 
               PostSkuModel valid = skuModel;
-              if (valid.barcodePos != null &&
-                  valid.barcodePos.length <= 15 &&
-                  valid.productName != null &&
-                  valid.packSize != null &&
-                  valid.banForPracharat != null &&
-                  valid.isVat != null &&
-                  valid.isVat != null &&
-                  valid.createBy != null &&
-                  valid.createDate != null &&
-                  valid.isActive != null &&
-                  titleModel.departmentTitle != null &&
-                  titleModel.categoryTitle != null &&
-                  titleModel.subcategoryTitle != null &&
-                  titleModel.brandTitle != null &&
-                  titleModel.sizeTitle != null &&
-                  titleModel.unitTitle != null) {
-                    // ignore: avoid_print
-                    print('0');
-                if (result != null) {
-                  //TODO: Show Success dialog
-                    print(result);
-                  setState(() {
-                    SuccessDialog(context: context, title: 'บันทึกสำเร็จ')
-                        .show();
-                  });
-                } else {
-                   // ignore: avoid_print
-                  print(result);
-                  setState(() {
-                    ErrorDialog(context: context, title: 'ล้มเหลว').show();
-                  });
-                }
+
+              if(skuModel.productName == null && skuModel.productName == '') {
+                errorMsg = 'ชื่อสินค้าไม่ถูกต้อง';
+              }
+
+              if(skuModel.barcodePos == null && skuModel.barcodePos == '' && skuModel.barcodePos.length > 15) {
+                errorMsg = 'บาร์โค้ดไม่ถูกต้อง';
+              }
+
+
+              if(errorMsg != null) {
+                ErrorDialog(context: context, title: 'ข้อมูลไม่ถูกต้อง', description: errorMsg).show();
+              }
+
+              // if (valid.barcodePos != null &&
+              //     valid.barcodePos.length <= 15 &&
+              //     valid.productName != null &&
+              //     valid.packSize != null &&
+              //     valid.banForPracharat != null &&
+              //     valid.isVat != null &&
+              //     valid.createBy != null &&
+              //     valid.createDate != null &&
+              //     valid.isActive != null &&
+              //     titleModel.departmentTitle != null &&
+              //     titleModel.categoryTitle != null &&
+              //     titleModel.subcategoryTitle != null &&
+              //     titleModel.brandTitle != null &&
+              //     titleModel.sizeTitle != null &&
+              //     titleModel.unitTitle != null) {
+              //
+              // }
+
+              if (result != null) {
+                SuccessDialog(context: context, title: 'บันทึกสำเร็จ').show();
               } else {
-                print('1');
-                setState(() {
-                  ErrorDialog(context: context, title: 'ข้อมูลไม่ถูกต้อง')
-                      .show();
-                });
+                ErrorDialog(context: context, title: 'เกิดข้อผิดพลาด', description: 'กรุณาลองดำเนินการใหม่ภายหลัง').show();
               }
             },
             child: Container(
