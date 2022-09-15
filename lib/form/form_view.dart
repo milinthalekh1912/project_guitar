@@ -242,7 +242,7 @@ class _FormCartState extends State<FormCart> {
                 skuModel,
                 titleModel,
                 _barcodeTextField.text,
-                update,
+                update,0
               );
               Navigator.pop(context);
 

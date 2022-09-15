@@ -24,6 +24,7 @@ class Get_SKULookupByBarcode_API_Service {
       }
       Map<String, dynamic> v = jsonDecode(response.body);
       String key = v.keys.first.toString();
+      print(response.body);
       object = SkuLookupBarcodeModel(
         barcode: key,
         sku: v.values.first['sku'],
