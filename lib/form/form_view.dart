@@ -835,10 +835,7 @@ class _FormCartState extends State<FormCart> {
         }
       });
     } else if (result.runtimeType == List<SkuLookupBarcodeModel>) {
-
-    } else {
-
-    }
+    } else {}
   }
 
   void clearText() {
@@ -857,6 +854,7 @@ class _FormCartState extends State<FormCart> {
 
   void reset() {
     setState(() {
+      skuId = null;
       _barcodeTextField.text = '';
       _itemNameTextFieldController.text = '';
       _priceTextFieldController.text = '';
