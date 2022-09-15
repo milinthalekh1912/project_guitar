@@ -185,20 +185,18 @@ class _FormCartState extends State<FormCart> {
           ),
           GestureDetector(
             onTap: () async {
-              //TODO: Validate fields here.
-
               SKUPostManager manager = SKUPostManager();
               PostSkuModel skuModel = PostSkuModel(
                 skuid: skuId ?? '',
-                barcodePos: _barcodeTextField.text,
-                productName: _itemNameTextFieldController.text,
+                barcodePos: _barcodeTextField.text ?? '',
+                productName: _itemNameTextFieldController.text ?? '',
                 brandID: null,
                 productGroupID: null,
                 productCatID: null,
                 productSubCatID: null,
                 productSizeID: null,
                 productUnit: null,
-                packSize: _sizeTextFieldController.text,
+                packSize: _sizeTextFieldController.text ?? '',
                 unit: 0,
                 banForPracharat: isInTongFahCampaign ? 1 : 0,
                 isVat: isVat,
@@ -210,12 +208,12 @@ class _FormCartState extends State<FormCart> {
               );
 
               TitleSkuModel titleModel = TitleSkuModel(
-                departmentTitle: selectedDepartment!,
-                categoryTitle: selectedCategoryTitle!,
-                subcategoryTitle: selectedSubcategoryTitle!,
-                brandTitle: selectedBrandTitle!,
-                sizeTitle: selectedSizeTitle!,
-                unitTitle: selectedUnitTitle!,
+                departmentTitle: selectedDepartment ?? '',
+                categoryTitle: selectedCategoryTitle ?? '',
+                subcategoryTitle: selectedSubcategoryTitle ?? '',
+                brandTitle: selectedBrandTitle ?? '',
+                sizeTitle: selectedSizeTitle ?? '',
+                unitTitle: selectedUnitTitle ?? '',
               );
               bool update;
               if (skuId == null) {
@@ -224,104 +222,40 @@ class _FormCartState extends State<FormCart> {
                 update = true;
               }
 
+              errorMsg = _validate(skuModel, titleModel);
+              if (errorMsg != null) {
+                ErrorDialog errorDialog = ErrorDialog(
+                  context: context,
+                  title: 'ข้อมูลไม่ถูกต้อง',
+                  description: errorMsg,
+                );
+
+                await errorDialog.show();
+                return;
+              }
+
+              LoadingDialog loadingDialog = LoadingDialog(
+                  context: context, title: 'กำลังดำเนินการ กรุณารอสักครู่');
+              loadingDialog.show();
+
               String? result = await manager.createSkuDetails(
                 skuModel,
                 titleModel,
                 _barcodeTextField.text,
                 update,
               );
+              Navigator.pop(context);
 
-              PostSkuModel valid = skuModel;
-
-              if (skuModel.productName == null && skuModel.productName == '') {
-                errorMsg = 'ชื่อสินค้าไม่ถูกต้อง';
-              }
-
-              if (skuModel.barcodePos == null &&
-                  skuModel.barcodePos == '' &&
-                  skuModel.barcodePos.length > 15) {
-                errorMsg = 'บาร์โค้ดไม่ถูกต้อง';
-              }
-              if (skuModel.productName == null && skuModel.productName == '') {
-                errorMsg = 'ชื่อสินค้าไม่ถูกต้อง';
-              }
-              if (skuModel.packSize == null && skuModel.packSize == '') {
-                errorMsg = 'แพ๊คขนาดไม่ถูกต้อง';
-              }
-              if (skuModel.banForPracharat == null &&
-                  skuModel.banForPracharat == '') {
-                errorMsg = 'แพ๊คขนาดไม่ถูกต้อง';
-              }
-              if (skuModel.isVat == null && skuModel.isVat == '') {
-                errorMsg = 'vat ไม่ถูกต้อง';
-              }
-              if (skuModel.createBy == null && skuModel.createBy == '') {
-                errorMsg = 'ข้อมูลลูกค้าไม่ถูกต้อง';
-              }
-              if (skuModel.createDate == null && skuModel.createDate == '') {
-                errorMsg = 'วันที่ไม่ถูกต้อง';
-              }
-              if (skuModel.isActive == null && skuModel.isActive == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-              if (titleModel.departmentTitle == null &&
-                  titleModel.departmentTitle == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-               if (titleModel.categoryTitle == null &&
-                  titleModel.categoryTitle == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-              if (titleModel.subcategoryTitle == null &&
-                  titleModel.subcategoryTitle == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-              if (titleModel.brandTitle == null &&
-                  titleModel.brandTitle == '') {
-                errorMsg = 'กรุณาเลือกแบนด์';
-              }
-              if (titleModel.sizeTitle == null &&
-                  titleModel.sizeTitle == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-              if (titleModel.unitTitle == null &&
-                  titleModel.unitTitle == '') {
-                errorMsg = 'ข้อมูลไม่ถูกต้อง';
-              }
-
-              if (errorMsg != null) {
-                ErrorDialog(
-                        context: context,
-                        title: 'ข้อมูลไม่ถูกต้อง',
-                        description: errorMsg)
-                    .show();
-              }
-
-              // if (valid.barcodePos != null &&
-              //     valid.barcodePos.length <= 15 &&
-              //     valid.productName != null &&
-              //     valid.packSize != null &&
-              //     valid.banForPracharat != null &&
-              //     valid.isVat != null &&
-              //     valid.createBy != null &&
-              //     valid.createDate != null &&
-              //     valid.isActive != null &&
-              //     titleModel.departmentTitle != null &&
-              //     titleModel.categoryTitle != null &&
-              //     titleModel.subcategoryTitle != null &&
-              //     titleModel.brandTitle != null &&
-              //     titleModel.sizeTitle != null &&
-              //     titleModel.unitTitle != null) {
-              //
-              // }
-
-              if (result != null) {
+              if (result == null) {
                 SuccessDialog(context: context, title: 'บันทึกสำเร็จ').show();
+                setState(() {
+                  reset();
+                });
               } else {
                 ErrorDialog(
                         context: context,
                         title: 'เกิดข้อผิดพลาด',
-                        description: 'กรุณาลองดำเนินการใหม่ภายหลัง')
+                        description: 'บาร์โค้ดนี้มีอยู่ในระบบแล้ว')
                     .show();
               }
             },
@@ -346,6 +280,62 @@ class _FormCartState extends State<FormCart> {
         ],
       ),
     );
+  }
+
+  String? _validate(PostSkuModel skuModel, TitleSkuModel titleModel) {
+    if (skuModel.barcodePos == null ||
+        skuModel.barcodePos == '' ||
+        skuModel.barcodePos.length > 15) {
+      return 'บาร์โค้ดไม่ถูกต้อง';
+    }
+    if (skuModel.productName == null || skuModel.productName == '') {
+      return 'ชื่อสินค้าไม่ถูกต้อง';
+    }
+
+    if (titleModel.departmentTitle == null ||
+        titleModel.departmentTitle == '') {
+      return 'ข้อมูล Department ไม่ถูกต้อง';
+    }
+    if (titleModel.categoryTitle == null || titleModel.categoryTitle == '') {
+      return 'ข้อมูล Category ไม่ถูกต้อง';
+    }
+
+    if (titleModel.subcategoryTitle == null ||
+        titleModel.subcategoryTitle == '') {
+      return 'ข้อมูล Subcategory ไม่ถูกต้อง';
+    }
+
+    if (titleModel.brandTitle == null || titleModel.brandTitle == '') {
+      return 'กรุณาเลือกแบนด์';
+    }
+    if (titleModel.sizeTitle == null || titleModel.sizeTitle == '') {
+      return 'ข้อมูลปริมาณ/ขนาดไม่ถูกต้อง';
+    }
+    if (skuModel.packSize == null || skuModel.packSize == '') {
+      return 'แพ๊คขนาดไม่ถูกต้อง';
+    }
+
+    if (titleModel.unitTitle == null || titleModel.unitTitle == '') {
+      return 'ข้อมูลหน่วยขายไม่ถูกต้อง';
+    }
+
+    if (skuModel.isVat == null) {
+      return 'vat ไม่ถูกต้อง';
+    }
+
+    if (skuModel.banForPracharat == null) {
+      return 'แพ๊คขนาดไม่ถูกต้อง';
+    }
+
+    if (skuModel.createBy == null || skuModel.createBy == '') {
+      return 'ข้อมูลลูกค้าไม่ถูกต้อง';
+    }
+
+    if (skuModel.createDate == null || skuModel.createDate == '') {
+      return 'วันที่ไม่ถูกต้อง';
+    }
+
+    return null;
   }
 
   Row _price() {
