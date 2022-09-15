@@ -17,7 +17,7 @@ import '../service/post_sku_service/post_sku_service.dart';
 var uuid = const Uuid();
 
 class SKUPostManager {
-  Future<dynamic> createSkuDetails(PostSkuModel model,TitleSkuModel titleSkuModel,String barcode,bool update) async {
+  Future<dynamic> createSkuDetails(PostSkuModel model,TitleSkuModel titleSkuModel,String barcode,bool update,double priceSku) async {
     var result = await Get_SKULookupByBarcode_API_Service()
         .getSkuLookupByBarcodeRequest(authorizationModelOnDevice, barcode);
     String skuId;
@@ -79,7 +79,7 @@ class SKUPostManager {
           SkuPricePatchModel(items: [
             SkuPriceModel(
               sku: skuId,
-              price: 0.0001,
+              price: priceSku,
             )
           ]));
           item.productCatID.toString();
