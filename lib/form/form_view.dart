@@ -1,6 +1,9 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form/color.dart';
+import 'package:form/form/component/dialog.dart';
 import 'package:form/manager/sku_post_manager.dart';
 import 'package:form/service/brand_service/brand_model.dart';
 import 'package:form/service/get_sku_by_id_url/get_sku_by_id_model.dart';
@@ -226,6 +229,7 @@ class _FormCartState extends State<FormCart> {
                 sizeTitle: selectedSizeTitle!,
                 unitTitle: selectedUnitTitle!,
               );
+              // var valid = skuModel.barcodePos ;
 
               String? result = await manager.createSkuDetails(
                 skuModel,
@@ -234,10 +238,45 @@ class _FormCartState extends State<FormCart> {
                 skuId != null,
               );
 
-              if (result != null) {
-                //TODO: Show Success dialog
+              PostSkuModel valid = skuModel;
+              if (valid.barcodePos != null &&
+                  valid.barcodePos.length <= 15 &&
+                  valid.productName != null &&
+                  valid.packSize != null &&
+                  valid.banForPracharat != null &&
+                  valid.isVat != null &&
+                  valid.isVat != null &&
+                  valid.createBy != null &&
+                  valid.createDate != null &&
+                  valid.isActive != null &&
+                  titleModel.departmentTitle != null &&
+                  titleModel.categoryTitle != null &&
+                  titleModel.subcategoryTitle != null &&
+                  titleModel.brandTitle != null &&
+                  titleModel.sizeTitle != null &&
+                  titleModel.unitTitle != null) {
+                    // ignore: avoid_print
+                    print('0');
+                if (result != null) {
+                  //TODO: Show Success dialog
+                    print(result);
+                  setState(() {
+                    SuccessDialog(context: context, title: 'บันทึกสำเร็จ')
+                        .show();
+                  });
+                } else {
+                   // ignore: avoid_print
+                  print(result);
+                  setState(() {
+                    ErrorDialog(context: context, title: 'ล้มเหลว').show();
+                  });
+                }
               } else {
-                //TODO: show barcode dup dialog
+                print('1');
+                setState(() {
+                  ErrorDialog(context: context, title: 'ข้อมูลไม่ถูกต้อง')
+                      .show();
+                });
               }
             },
             child: Container(

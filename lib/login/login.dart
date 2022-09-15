@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/form/component/dialog.dart';
 import 'package:form/form/form_view.dart';
 
 import 'package:form/login/login_view_model.dart';
@@ -17,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController password = TextEditingController(text: "");
   @override
   late final LoginViewModel _viewModel =
-  LoginViewModel(username.text.toString(), password.text.toString());
+      LoginViewModel(username.text.toString(), password.text.toString());
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     var size, height, width;
@@ -109,24 +110,32 @@ class _LoginPageState extends State<LoginPage> {
                             height: 20,
                           ),
                           GestureDetector(
-                            onTap: () async{
+                            onTap: () async {
                               setState(() {
                                 _viewModel.model.username = username.text;
                                 _viewModel.model.password = password.text;
                               });
                               if (_viewModel.model.username == "" ||
                                   _viewModel.model.password == "") {
-                                _showMyDialog(context,'โปรดระบุ Username และ Password');
-                              }else{
-                                var result = await _viewModel.userOnClickLogin();
-                                if(result == true){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FormCart()),
-                                  );
-                                }else{
-                                  _showMyDialog(context,result);
+                                _showMyDialog(
+                                    context, 'โปรดระบุ Username และ Password');
+                              } else {
+                                var result =
+                                    await _viewModel.userOnClickLogin();
+                                if (result == true) {
+                                  LoadingDialog(
+                                          context: context, title: 'รอสักครู่')
+                                      .show();
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FormCart()),
+                                    );
+                                  });
+                                } else {
+                                  _showMyDialog(context, result);
                                 }
                               }
                             },
@@ -160,7 +169,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-Future<void> _showMyDialog(context,String msg) async {
+
+Future<void> _showMyDialog(context, String msg) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
