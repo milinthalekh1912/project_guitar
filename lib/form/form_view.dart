@@ -165,19 +165,7 @@ class _FormCartState extends State<FormCart> {
         children: [
           GestureDetector(
             onTap: () {
-              setState(() {
-                _barcodeTextField.text = '';
-                _itemNameTextFieldController.text = '';
-                _priceTextFieldController.text = '';
-                _sizeTextFieldController.text = '';
-
-                selectedBrandTitle = null;
-                selectedSubcategoryTitle = null;
-                selectedCategoryTitle = null;
-                selectedDepartment = null;
-                selectedSizeTitle = null;
-                selectedUnitTitle = null;
-              });
+              reset();
             },
             child: Container(
               height: 50,
@@ -229,7 +217,12 @@ class _FormCartState extends State<FormCart> {
                 sizeTitle: selectedSizeTitle!,
                 unitTitle: selectedUnitTitle!,
               );
-              // var valid = skuModel.barcodePos ;
+              bool update;
+              if (skuId == null) {
+                update = false;
+              } else {
+                update = true;
+              }
 
               String? result = await manager.createSkuDetails(
                 skuModel,
@@ -819,11 +812,6 @@ class _FormCartState extends State<FormCart> {
         _barcodeTextField.text = barcode;
 
         GetSkuModel itemData = result as GetSkuModel;
-
-        print(itemData.skuid);
-        print(itemData.productName);
-        print(itemData.brandID);
-
         skuId = itemData.skuid;
         isVat = itemData.isVat;
         isInTongFahCampaign = itemData.banForPracharat == 1 ? true : false;
@@ -894,6 +882,23 @@ class _FormCartState extends State<FormCart> {
     }
     // print(listBrandItem);
     return listBrandItem;
+  }
+
+  void reset() {
+    setState(() {
+      skuId = null;
+      _barcodeTextField.text = '';
+      _itemNameTextFieldController.text = '';
+      _priceTextFieldController.text = '';
+      _sizeTextFieldController.text = '';
+
+      selectedBrandTitle = null;
+      selectedSubcategoryTitle = null;
+      selectedCategoryTitle = null;
+      selectedDepartment = null;
+      selectedSizeTitle = null;
+      selectedUnitTitle = null;
+    });
   }
 }
 
